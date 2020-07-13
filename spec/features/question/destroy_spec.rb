@@ -12,7 +12,7 @@ feature 'Автор может удалить свой вопрос, но не �
       login(question.user)
       visit question_path(question)
       expect(page).to have_content 'Bad question'
-      click_on 'Delete'
+      click_on 'Delete question'
       expect(page).to_not have_content 'Bad question'
 
       expect(page).to have_content 'Question was successfully deleted.'
@@ -21,12 +21,12 @@ feature 'Автор может удалить свой вопрос, но не �
     scenario 'не являясь автором вопроса' do
       login(user)
       visit question_path(question)
-      expect(page).to_not have_link 'Delete'
+      expect(page).to_not have_link 'Delete question'
     end
   end
 
   scenario 'Не аутентифицированный пользователь пытается удалить вопрос' do
     visit question_path(question)
-    expect(page).to_not have_link 'Delete'
+    expect(page).to_not have_link 'Delete question'
   end
 end

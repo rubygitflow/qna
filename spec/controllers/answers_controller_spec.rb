@@ -3,16 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
-
-  describe 'GET #index' do
-    let(:answers) { create_list(:answer, 3) }
-
-    before { get :index, params: { question_id: question } }
-
-    it 'renders index view' do
-      expect(response).to render_template :index
-    end
-  end
+  let(:user) { create(:user) }
 
   describe 'GET #show' do
     before { get :show, params: {id: answer} }
@@ -27,6 +18,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
+    before { login(user) }
     before { get :new, params: {question_id: question} }
 
     it 'assigns a new Answer to @answer' do
@@ -39,6 +31,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
+    before { login(user) }
     before { get :edit, params: {id: answer} }
 
     it 'assigns requested answer to @answer' do
@@ -51,14 +44,21 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'save a answer in the database' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
       end
 
+      it 'authenticated user to be author of answer' do
+        post :create, params: {question_id: answer.question, answer: attributes_for(:answer)}
+        expect(user).to be_author(assigns(:answer))
+      end
+
       it 'redirects to show view' do
         post :create, params: {question_id: question, answer: attributes_for(:answer)}
-        expect(response).to redirect_to assigns(:answer)
+        expect(response).to redirect_to answer.question
       end
     end
 
@@ -70,12 +70,14 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'assigns requested answer to @answer' do
         patch :update, params: {id: answer, answer: attributes_for(:answer)}
@@ -111,13 +113,28 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer) }
 
-    it 'delete the answer' do
-      expect { delete :destroy, params: {question_id: question, id: answer} }.to change(Answer, :count).by(-1)
+    context 'author' do
+      before { login(answer.user) }
+
+      it 'delete the answer' do
+        expect { delete :destroy, params: {id: answer} }.to change(Answer, :count).by(-1)
+      end
+      it 'redirects to index' do
+        delete :destroy, params: {id: answer}
+        expect(response).to redirect_to answer.question
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: {id: answer}
-      expect(response).to redirect_to answer.question
+    context 'not author' do
+      before { login(user) }
+
+      it 'no delete the answer' do
+        expect { delete :destroy, params: {id: answer} }.to_not change(Answer, :count)
+      end
+      it 'redirects to index' do
+        delete :destroy, params: {id: answer}
+        expect(response).to redirect_to answer.question
+      end
     end
   end
 end
