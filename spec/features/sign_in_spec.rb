@@ -5,7 +5,7 @@ feature 'Пользователь может войти в систему', %q(
 как аутентифицированный пользователь
 он должен иметь возможность войти в систему
 ) do
-  given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
+  given(:user) { create(:user) }
   background { visit new_user_session_path }
 
   scenario 'Зарегистрированный пользователь пытается войти в систему' do
