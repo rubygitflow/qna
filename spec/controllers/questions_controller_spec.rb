@@ -66,6 +66,11 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
 
+      it 'authenticated user to be author of question' do
+        post :create, params: {question: attributes_for(:question)}
+        expect(user).to be_author(assigns(:question))
+      end
+
       it 'redirects to show' do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
@@ -113,7 +118,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question' do
         question.reload
 
-        expect(question.title).to eq 'MyString'
+        expect(question.title).to_not eq nil
         expect(question.body).to eq 'MyText'
       end
 
@@ -127,16 +132,30 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     before { login(user) }
 
-    # Important! We do it before every test!
-    let!(:question) { create(:question) }
+    # Important! We do it before every Rspec-test!
+    let!(:question) { user.questions.create(attributes_for(:question)) }
+    let!(:other_question) { create(:question) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    context 'author' do
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'not author' do
+      it 'no deletes the question' do
+        expect { delete :destroy, params: { id: other_question } }.to_not change(Question, :count)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: other_question }
+        expect(response).to redirect_to questions_path
+      end
     end
   end
 end
