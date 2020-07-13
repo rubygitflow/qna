@@ -1,20 +1,18 @@
 require 'rails_helper'
 
-feature 'Пользователь, находясь на странице вопроса, может написать ответ на вопрос', %q(
-  Чтобы помочь решить проблему
-  Аутентифицированный пользователь
-  Может написать ответ на вопрос
+feature 'The user, being on the question page, can write the answer to the question', %q(
+  An authenticated user can write an answer to a question to help solve a problem
 ) do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'Аутентифицированный пользователь' do
+  describe 'Authenticated user' do
     background do
       login(user)
       visit question_path(question)
     end
 
-    scenario 'пишет ответ на вопрос' do
+    scenario 'writes the answer to the question' do
       fill_in 'Answer', with: 'Test answer'
       click_on 'Reply'
 
@@ -22,14 +20,14 @@ feature 'Пользователь, находясь на странице воп
       expect(page).to have_content 'Test answer'
     end
 
-    scenario 'пишет ответ на вопрос с ошибками' do
+    scenario 'writes an answer to a question with errors' do
       click_on 'Reply'
 
       expect(page).to have_content "Answer can't be blank"
     end
   end
 
-  scenario 'Не аутентифицированный пользователь пытается ответить на вопрос' do
+  scenario 'Unauthenticated user trying to answer a question' do
     visit question_path(question)
     click_on 'Reply'
 

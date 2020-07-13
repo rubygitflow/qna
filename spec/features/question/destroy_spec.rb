@@ -1,14 +1,13 @@
 require 'rails_helper'
 
-feature 'Автор может удалить свой вопрос, но не может удалить чужой вопрос', %q(
-  Чтобы избавиться от ненужного вопроса
-  Автор вопроса может удалить вопрос
+feature "The author can delete their own question, but they can't delete someone else's question", %q(
+  To get rid of an unnecessary question the question Author can delete the question
 ) do
   given(:user) { create(:user) }
   given(:question) { create(:question, title: 'Bad question') }
 
-  describe 'Аутентифицированный пользователь пытается удалить вопрос' do
-    scenario 'являясь автором вопроса' do
+  describe 'The authenticated user tries to delete the question' do
+    scenario 'being the author of the question' do
       login(question.user)
       visit question_path(question)
       expect(page).to have_content 'Bad question'
@@ -18,14 +17,14 @@ feature 'Автор может удалить свой вопрос, но не �
       expect(page).to have_content 'Question was successfully deleted.'
     end
 
-    scenario 'не являясь автором вопроса' do
+    scenario 'without being the author of the question' do
       login(user)
       visit question_path(question)
       expect(page).to_not have_link 'Delete question'
     end
   end
 
-  scenario 'Не аутентифицированный пользователь пытается удалить вопрос' do
+  scenario 'Unauthenticated user tries to delete a question' do
     visit question_path(question)
     expect(page).to_not have_link 'Delete question'
   end

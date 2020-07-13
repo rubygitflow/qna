@@ -1,14 +1,12 @@
 require 'rails_helper'
 
-feature 'Пользователь может войти в систему', %q(
-чтобы задать вопрос
-как аутентифицированный пользователь
-он должен иметь возможность войти в систему
+feature 'User can login', %q(
+  To ask a question as an authenticated user, he must be able to log in
 ) do
   given(:user) { create(:user) }
   background { visit new_user_session_path }
 
-  scenario 'Зарегистрированный пользователь пытается войти в систему' do
+  scenario 'A registered user is trying to log in' do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_on 'Log in'
@@ -16,7 +14,7 @@ feature 'Пользователь может войти в систему', %q(
     expect(page).to have_content 'Signed in successfully.'
   end
 
-  scenario 'Не зарегистрированный пользователь пытается войти в систему' do
+  scenario 'An unregistered user is trying to log in' do
     fill_in 'Email', with: 'wrong@test.com'
     fill_in 'Password', with: '12345678'
     click_on 'Log in'

@@ -18,7 +18,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params.merge(user_id: current_user.id))
+    @answer = @question.answers.new(answer_params.merge(user: current_user))
 
     if @answer.save
       redirect_to @answer.question, notice: 'Your answer added'
@@ -36,12 +36,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    unless current_user.author?(@answer)
+    if current_user.author?(@answer)
+      @answer.destroy
+      redirect_to @answer.question, notice: 'Answer was successfully deleted.'
+    else
       return redirect_to @answer.question, notice: 'Delete unavailable! You are not the author of the answer.'
     end
 
-    @answer.destroy
-    redirect_to @answer.question, notice: 'Answer was successfully deleted.'
   end
 
   private

@@ -1,9 +1,7 @@
 require 'rails_helper'
 
-feature 'Пользователь может просматривать вопрос и ответы к нему', %q(
-  Чтобы получить ответы
-  Любой пользователь
-  Может просматривать вопрос и ответы к нему
+feature 'The user can view the question and answers to it', %q(
+  To get answers, any user can view the question and answers to it
 ) do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
@@ -13,7 +11,7 @@ feature 'Пользователь может просматривать вопр
     question.answers.create!(body: 'answer 2', user_id: user.id)
   end
 
-  scenario 'Пользователь просматривает вопрос и ответы к нему' do
+  scenario 'The user views the question and answers to it' do
     visit question_path(question)
 
     expect(page).to have_content question.title

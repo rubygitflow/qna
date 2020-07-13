@@ -7,9 +7,8 @@ h2 Answers
   - if current_user&.author?(answer)
     p= link_to('Delete answer', answer_path(answer), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger')
 
-
 = render 'shared/short_errors', resource: @answer
-= form_with model: [@question, @question.answers.new], local: true do |f|
+= form_with model: [@question, @answers.new], local: true do |f|
   = f.label :body, 'Answer'
   = f.text_area :body
   = f.submit 'Reply'
