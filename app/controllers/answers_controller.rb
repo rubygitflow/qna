@@ -18,14 +18,10 @@ class AnswersController < ApplicationController
   end
 
   def create
-    # @answer = @question.answers.create(answer_params)
-
-    @answer = @question.answers.new(answer_params.merge(user: current_user))
+    @answer = @question.answers.new(answer_params)
 
     if @answer.save
-      redirect_to @answer.question, notice: 'Your answer added'
-    else
-      render 'questions/show'
+      redirect_to @question
     end
   end
 

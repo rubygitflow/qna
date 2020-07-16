@@ -1,6 +1,5 @@
 h1 = @question.title
 p = @question.body
-
 h2 Answers
 .answers
   - @question.answers.each do |answer|
@@ -11,7 +10,7 @@ h2 Answers
 
 .answer-errors
   = render 'shared/errors', resource: @answer
-= form_with model: [@question, @answer], class: 'new-answer', data: { type: :json } do |f|
+= form_with model: [@question, @answer], class: 'new-answer', data: { type: :json } , remote: true do |f|
   = f.label :body, 'Answer'
   = f.text_area :body
   = f.submit 'Reply'
