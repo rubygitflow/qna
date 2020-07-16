@@ -5,32 +5,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer, question: question) }
   let(:user) { create(:user) }
 
-  describe 'GET #new' do
-    before { login(user) }
-    before { get :new, params: {question_id: question} }
-
-    it 'assigns a new Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-    before { login(user) }
-    before { get :edit, params: {id: answer} }
-
-    it 'assigns requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
     before { login(user) }
 
@@ -46,7 +20,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders create template' do
         post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
-        expect(response).to redirect_to answer.question
+        expect(response).to render_template :create
       end
     end
 
@@ -58,7 +32,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders create template' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid), format: :js }
-        expect(response).to render_template 'questions/show'
+        expect(response).to render_template :create
       end
     end
   end
