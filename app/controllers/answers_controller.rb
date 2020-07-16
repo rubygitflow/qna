@@ -18,6 +18,8 @@ class AnswersController < ApplicationController
   end
 
   def create
+    # @answer = @question.answers.create(answer_params)
+
     @answer = @question.answers.new(answer_params.merge(user: current_user))
 
     if @answer.save
@@ -27,12 +29,10 @@ class AnswersController < ApplicationController
     end
   end
 
+
   def update
-    if @answer.update(answer_params)
-      redirect_to @answer
-    else
-      render :edit
-    end
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy
@@ -58,5 +58,4 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body)
   end
-
 end
