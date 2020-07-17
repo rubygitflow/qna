@@ -1,7 +1,8 @@
 class AnswersController < ApplicationController
+  layout :false, only: %i[create update destroy select_best]
   before_action :authenticate_user!, except: :show
-  before_action :find_question, only: %i[index new create]
-  before_action :load_answer, only: %i[show edit update destroy]
+  before_action :find_question, only: %i[index create]
+  before_action :load_answer, only: %i[show edit update destroy select_best]
 
   def index
     @answers = @question.answers
@@ -20,18 +21,19 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params.merge(user: current_user))
     @answer.save
-    render layout: false
   end
 
 
   def update
     @answer.update(answer_params)
-    render layout: false
   end
 
   def destroy
     @answer.destroy if current_user.author?(@answer)
-    render layout: false
+  end
+
+  def select_best
+    @answer.select_best! if current_user.author?(@answer.question)
   end
 
   private

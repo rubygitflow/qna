@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
+  let!(:other_answer) { create(:answer) }
 
   describe 'POST #create' do
     before { login(user) }
@@ -73,31 +74,62 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) { create(:answer) }
+    before { login(user) }
 
     context 'author' do
-      before { login(answer.user) }
-
-      it 'delete the answer' do
-        expect { delete :destroy, params: {id: answer} }.to change(Answer, :count).by(-1)
+      it 'deletes the answer' do
+        expect { delete :destroy, params: {id: answer, format: :js} }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to index' do
-        delete :destroy, params: {id: answer}
-        expect(response).to redirect_to answer.question
+      it 'renders destroy view' do
+        delete :destroy, params: {id: answer, format: :js}
+        expect(response).to render_template :destroy
       end
     end
 
     context 'not author' do
-      before { login(user) }
-
-      it 'no delete the answer' do
-        expect { delete :destroy, params: {id: answer} }.to_not change(Answer, :count)
+      it "doesn't delete the answer" do
+        expect { delete :destroy, params: {id: other_answer, format: :js} }.to_not change(Answer, :count)
       end
 
-      it 'redirects to index' do
-        delete :destroy, params: {id: answer}
-        expect(response).to redirect_to answer.question
+      it 'renders destroy template' do
+        delete :destroy, params: {id: answer, format: :js}
+        expect(response).to render_template :destroy
+      end
+    end
+  end
+
+
+  describe 'POST #select_best' do
+    before { login(user) }
+
+    context 'author' do
+      before { post :select_best, params: {id: answer, format: :js} }
+
+      it 'assigns requested answer to @answer' do
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'update best attribute' do
+        answer.reload
+        expect(answer.best).to eq true
+      end
+
+      it 'render select_best template' do
+        expect(response).to render_template :select_best
+      end
+    end
+
+    context 'not author' do
+      before { post :select_best, params: {id: other_answer, format: :js} }
+
+      it 'not update best attribute' do
+        answer.reload
+        expect(answer.best).to_not eq true
+      end
+
+      it 'render select_best template' do
+        expect(response).to render_template :select_best
       end
     end
   end
