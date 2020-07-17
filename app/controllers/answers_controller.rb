@@ -19,27 +19,19 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params.merge(user: current_user))
-
     @answer.save
-
     render layout: false
   end
 
 
   def update
     @answer.update(answer_params)
-    
     render layout: false
   end
 
   def destroy
-    if current_user.author?(@answer)
-      @answer.destroy
-      redirect_to @answer.question, notice: 'Answer was successfully deleted.'
-    else
-      return redirect_to @answer.question, notice: 'Delete unavailable! You are not the author of the answer.'
-    end
-
+    @answer.destroy if current_user.author?(@answer)
+    render layout: false
   end
 
   private

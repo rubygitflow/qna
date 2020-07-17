@@ -37,7 +37,7 @@ RSpec.configure do |config|
   config.include FeatureHelpers, type: :feature
 
   # You must have the chrome browser installed
-  # Capybara.javascript_driver = :selenium_chrome
+  Capybara.javascript_driver = :selenium_chrome
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
