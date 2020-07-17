@@ -21,12 +21,15 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params.merge(user: current_user))
 
     @answer.save
+
+    render layout: false
   end
 
 
   def update
     @answer.update(answer_params)
-    @question = @answer.question
+    
+    render layout: false
   end
 
   def destroy

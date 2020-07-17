@@ -1,0 +1,15 @@
+blockquote id="answer-#{resource.id}"
+  p= resource.body
+
+  - if user_signed_in? & current_user&.author?(resource)
+    p
+      span = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info' , data: { answer_id: resource.id }
+      span = link_to 'Delete answer', answer_path(resource), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' 
+
+    div id="answer-#{resource.id}-errors"
+      = render 'shared/short_errors', resource: resource
+
+    = form_with model: resource, class: 'hidden', html: { id: "edit-answer-#{resource.id}" } do |f|
+      = f.label :body, 'Your answer'
+      = f.text_area :body
+      = f.submit 'Save'

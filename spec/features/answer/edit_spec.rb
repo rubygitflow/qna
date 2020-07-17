@@ -6,39 +6,60 @@ feature 'User can edit his answer', %q{
   I'd like ot be able to edit my answer
 } do
 
-  given!(:user) { create(:user) }
+  given(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question) }
+  given!(:other_question) { create(:question) }
+  given!(:answer) { create(:answer, question: question, user: user) }
 
   scenario 'Unauthenticated can not edit answer' do
-    # visit question_path(question)
+    visit question_path(question)
 
-    # expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_link 'Edit'
   end
 
   describe 'Authenticated user' do
-    scenario 'edits his answer'  do  # , js: true
-      # sign_in user
-      # visit question_path(question)
+    background { login(user) }
 
-      # click_on 'Edit'
+    describe 'edit his answer', js: true do
+      background { visit question_path(question) }
 
+      scenario 'without errors' do
+        # save_and_open_page
 
-      # within '.answers' do
-      #   fill_in 'Your answer', with: 'edited answer'
-      #   click_on 'Save'
+        within "#answer-#{answer.id}" do
+          click_on 'Edit'
 
-      #   expect(page).to_not have_content answer.body
-      #   expect(page).to have_content 'edited answer'
-      #   expect(page).to_not have_selector 'textarea'
-      # end
+          fill_in 'answer[body]', with: 'edited answer'
+
+          click_on 'Save'
+
+          expect(page).to_not have_content answer.body
+          expect(page).to have_content 'edited answer'
+          expect(page).to_not have_selector 'textarea'
+        end
+      end
+
+      scenario 'with some errors' do
+        # save_and_open_page
+        
+        within "#answer-#{answer.id}" do
+          click_on 'Edit'
+
+          fill_in 'answer[body]', with: ''
+
+          click_on 'Save'
+
+          expect(page).to have_content answer.body
+          expect(page).to have_selector 'textarea'
+          expect(page).to have_content "can't be blank"
+        end
+      end
     end
 
-    scenario 'edits his answer with errors' do # , js: true
-    end
+    scenario "tries to edit other user's answer" do
+      visit question_path(other_question)
 
-    scenario "tries to edit other user's question" do # , js: true
+      expect(page).to_not have_link 'Edit'
     end
-
   end
 end

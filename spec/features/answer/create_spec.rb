@@ -6,7 +6,7 @@ feature 'The user, being on the question page, can write the answer to the quest
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  # — attach Capybara's browser emulator
+  # js — attach Capybara's browser emulator
   describe 'Authenticated user', js: true do    
   # describe 'Authenticated user' do
     background do
