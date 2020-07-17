@@ -93,45 +93,44 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+
   describe 'PATCH #update' do
     before { login(user) }
 
     context 'with valid attributes' do
       it 'assigns requested question to @question' do
-        patch :update, params: {id: question, question: attributes_for(:question)}
+        patch :update, params: { id: question, question: {title: 'new title', body: 'new body'}, format: :js }
         expect(assigns(:question)).to eq question
       end
 
       it 'changes question attributes' do
-        patch :update, params: {id: question, question: {title: 'new title', body: 'new body'}}
+        patch :update, params: { id: question, question: {title: 'new title', body: 'new body'}, format: :js }
         question.reload
-
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
       end
 
-      it 'redirects to updated question' do
-        patch :update, params: {id: question, question: attributes_for(:question)}
-        expect(response).to redirect_to question
+      it "renders updated question's view" do
+        patch :update, params: { id: question, question: {title: 'new title', body: 'new body'}, format: :js}
+        expect(response).to render_template :update
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: {id: question, question: attributes_for(:question, :invalid)} }
+      before { patch :update, params: {id: question, question: attributes_for(:question, :invalid), format: :js} }
 
-      it 'does not change question' do
+      it 'does not change question attributes' do
         question.reload
-
-        expect(question.title).to_not eq nil
+        
+        expect(question.title).to have_content 'Title '
         expect(question.body).to eq 'MyText'
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      it "renders question's update view" do
+        expect(response).to render_template :update
       end
     end
   end
-
 
   describe 'DELETE #destroy' do
     before { login(user) }

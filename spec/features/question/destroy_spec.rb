@@ -9,8 +9,10 @@ feature "The author can delete their own question, but they can't delete someone
   describe 'The authenticated user tries to delete the question' do
     scenario 'being the author of the question' do
       login(question.user)
+
       visit question_path(question)
       expect(page).to have_content 'Bad question'
+      
       click_on 'Delete question'
       expect(page).to_not have_content 'Bad question'
 

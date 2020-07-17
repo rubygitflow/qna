@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'User can edit his answer', %q{
   In order to correct mistakes
   As an author of answer
-  I'd like ot be able to edit my answer
+  I'd like to be able to edit my answer
 } do
 
   given(:user) { create(:user) }
@@ -14,7 +14,7 @@ feature 'User can edit his answer', %q{
   scenario 'Unauthenticated can not edit answer' do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_link 'Edit answer'
   end
 
   describe 'Authenticated user' do
@@ -27,7 +27,7 @@ feature 'User can edit his answer', %q{
         # save_and_open_page
 
         within "#answer-#{answer.id}" do
-          click_on 'Edit'
+          click_on 'Edit answer'
 
           fill_in 'answer[body]', with: 'edited answer'
 
@@ -43,7 +43,7 @@ feature 'User can edit his answer', %q{
         # save_and_open_page
         
         within "#answer-#{answer.id}" do
-          click_on 'Edit'
+          click_on 'Edit answer'
 
           fill_in 'answer[body]', with: ''
 
@@ -59,7 +59,7 @@ feature 'User can edit his answer', %q{
     scenario "tries to edit other user's answer" do
       visit question_path(other_question)
 
-      expect(page).to_not have_link 'Edit'
+      expect(page).to_not have_link 'Edit answer'
     end
   end
 end

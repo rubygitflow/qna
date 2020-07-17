@@ -1,7 +1,7 @@
 blockquote id="answer-#{resource.id}"
   p= resource.body
 
-  - if user_signed_in? & current_user&.author?(resource)
+  - if current_user&.author?(resource)
     p
       span = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info' , data: { answer_id: resource.id }
       span = link_to 'Delete answer', answer_path(resource), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' 
