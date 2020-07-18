@@ -60,15 +60,15 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: {id: answer, answer: attributes_for(:answer, :invalid), format: :js} }
-
       it 'does not change answer attributes' do
+        patch :update, params: {id: answer, answer: attributes_for(:answer, :invalid), format: :js}
         answer.reload
         expect(answer.body).to eq 'MyText'
       end
 
-      it 'renders update view' do
-        expect(response).to render_template :update
+      it 'returns forbidden' do
+        patch :update, params: {id: other_answer, format: :js}
+        expect(response).to be_forbidden
       end
     end
   end
@@ -92,9 +92,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: {id: other_answer, format: :js} }.to_not change(Answer, :count)
       end
 
-      it 'renders destroy template' do
-        delete :destroy, params: {id: answer, format: :js}
-        expect(response).to render_template :destroy
+      it 'returns forbidden' do
+        delete :destroy, params: {id: other_answer, format: :js}
+        expect(response).to be_forbidden
       end
     end
   end
@@ -106,7 +106,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'author' do
       before { post :select_best, params: {id: answer, format: :js} }
 
-      it 'assigns requested answer to @answer' do
+      it 'assigns the requested answer to @answer' do
         expect(assigns(:answer)).to eq answer
       end
 
@@ -128,8 +128,8 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.best).to_not eq true
       end
 
-      it 'render select_best template' do
-        expect(response).to render_template :select_best
+      it 'returns forbidden' do
+        expect(response).to be_forbidden
       end
     end
   end

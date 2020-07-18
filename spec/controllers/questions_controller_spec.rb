@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
 
 
   describe 'GET #index' do
@@ -120,14 +120,32 @@ RSpec.describe QuestionsController, type: :controller do
       before { patch :update, params: {id: question, question: attributes_for(:question, :invalid), format: :js} }
 
       it 'does not change question attributes' do
-        question.reload
-        
-        expect(question.title).to have_content 'Title '
+        question.reload       
+        expect(question.title).to_not eq nil
         expect(question.body).to eq 'MyText'
       end
 
       it "renders question's update view" do
         expect(response).to render_template :update
+      end
+    end
+    
+    context 'with incorrect user' do
+      before do
+        question.user = create(:user)
+        question.save!
+      end
+
+      it 'does not change question attributes' do
+        old_title = question.title
+        patch :update, params: { id: question, question: { title: 'wrong title' } }
+        question.reload
+        expect(question.title).to eq old_title
+      end
+
+      it 'forbidden to question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }
+        expect(response).to be_forbidden
       end
     end
   end

@@ -1,1 +1,1 @@
-$('.answers').html('<% @answer.question.answers.each do |answer| %><% if answer.persisted? %><%= j render 'shared/answer', resource: answer %><% end %><% end %>');
+$('.answers').html('<%= j render @answer.question.answers %>');

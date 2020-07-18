@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   layout :false, only: %i[update]
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
+  before_action :check_question_author, only: :update
 
   def index
     @questions = Question.all
@@ -52,5 +53,11 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
+  end
+
+  def check_question_author
+    unless current_user.author?(@question)
+      head(:forbidden)
+    end
   end
 end

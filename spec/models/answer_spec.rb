@@ -19,6 +19,7 @@ RSpec.describe Answer, type: :model do
       answer.select_best!
       expect(answer).to be_best
     end
+    
     it 'deselect other answers' do
       best_answer = create(:answer, question: question, best: true)
       answer.select_best!

@@ -2,9 +2,7 @@
 
 h2 Answers
 .answers
-  - @question.answers.each do |answer|
-    - if answer.persisted?
-      = render 'shared/answer', resource: answer
+  = render @question.answers
 
 .answer-errors
   = render 'shared/errors', resource: @answer

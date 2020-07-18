@@ -1,5 +1,5 @@
 <% if @answer.errors.blank? %>
-  $('#answer-<%= @answer.id %>').replaceWith('<%= j render 'shared/answer', resource: @answer  %>');
+  $('#answer-<%= @answer.id %>').replaceWith('<%= j render @answer  %>');
 <% else %>
   $('#answer-<%= @answer.id %>-errors').html('<%= j render 'shared/short_errors', resource: @answer %>');
 <% end %>
