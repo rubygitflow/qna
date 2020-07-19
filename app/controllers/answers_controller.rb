@@ -1,7 +1,10 @@
 class AnswersController < ApplicationController
+  layout :false, only: %i[create update destroy select_best]
   before_action :authenticate_user!, except: :show
-  before_action :find_question, only: %i[index new create]
-  before_action :load_answer, only: %i[show edit update destroy]
+  before_action :find_question, only: %i[index create]
+  before_action :load_answer, only: %i[show edit update destroy select_best]
+  before_action :check_answer_author, only: %i[update destroy]
+  before_action :check_question_author, only: :select_best
 
   def index
     @answers = @question.answers
@@ -19,30 +22,20 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params.merge(user: current_user))
-
-    if @answer.save
-      redirect_to @answer.question, notice: 'Your answer added'
-    else
-      render 'questions/show'
-    end
+    @answer.save
   end
 
+
   def update
-    if @answer.update(answer_params)
-      redirect_to @answer
-    else
-      render :edit
-    end
+    @answer.update(answer_params)
   end
 
   def destroy
-    if current_user.author?(@answer)
-      @answer.destroy
-      redirect_to @answer.question, notice: 'Answer was successfully deleted.'
-    else
-      return redirect_to @answer.question, notice: 'Delete unavailable! You are not the author of the answer.'
-    end
+    @answer.destroy
+  end
 
+  def select_best
+    @answer.select_best!
   end
 
   private
@@ -57,6 +50,18 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def check_question_author
+    unless current_user.author?(@answer.question)
+      head(:forbidden)
+    end
+  end
+
+  def check_answer_author
+    unless current_user.author?(@answer)
+      head(:forbidden)
+    end
   end
 
 end

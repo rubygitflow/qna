@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
 
 
   describe 'GET #index' do
@@ -25,6 +25,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
+    end
+
+    it 'assigns new answer for question' do
+      expect(assigns(:answer)).to be_a_new(Answer)
     end
 
     it 'renders show view' do
@@ -89,45 +93,62 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+
   describe 'PATCH #update' do
     before { login(user) }
 
     context 'with valid attributes' do
       it 'assigns requested question to @question' do
-        patch :update, params: {id: question, question: attributes_for(:question)}
+        patch :update, params: { id: question, question: {title: 'new title', body: 'new body'}, format: :js }
         expect(assigns(:question)).to eq question
       end
 
       it 'changes question attributes' do
-        patch :update, params: {id: question, question: {title: 'new title', body: 'new body'}}
+        patch :update, params: { id: question, question: {title: 'new title', body: 'new body'}, format: :js }
         question.reload
-
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
       end
 
-      it 'redirects to updated question' do
-        patch :update, params: {id: question, question: attributes_for(:question)}
-        expect(response).to redirect_to question
+      it "renders updated question's view" do
+        patch :update, params: { id: question, question: {title: 'new title', body: 'new body'}, format: :js}
+        expect(response).to render_template :update
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: {id: question, question: attributes_for(:question, :invalid)} }
+      before { patch :update, params: {id: question, question: attributes_for(:question, :invalid), format: :js} }
 
-      it 'does not change question' do
-        question.reload
-
+      it 'does not change question attributes' do
+        question.reload       
         expect(question.title).to_not eq nil
         expect(question.body).to eq 'MyText'
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      it "renders question's update view" do
+        expect(response).to render_template :update
+      end
+    end
+    
+    context 'with incorrect user' do
+      before do
+        question.user = create(:user)
+        question.save!
+      end
+
+      it 'does not change question attributes' do
+        old_title = question.title
+        patch :update, params: { id: question, question: { title: 'wrong title' } }
+        question.reload
+        expect(question.title).to eq old_title
+      end
+
+      it 'forbidden to question' do
+        patch :update, params: { id: question, question: attributes_for(:question) }
+        expect(response).to be_forbidden
       end
     end
   end
-
 
   describe 'DELETE #destroy' do
     before { login(user) }

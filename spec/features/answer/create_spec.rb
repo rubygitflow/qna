@@ -6,7 +6,9 @@ feature 'The user, being on the question page, can write the answer to the quest
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  # js — attach Capybara's browser emulator
+  describe 'Authenticated user', js: true do    
+  # describe 'Authenticated user' do
     background do
       login(user)
       visit question_path(question)
@@ -16,14 +18,16 @@ feature 'The user, being on the question page, can write the answer to the quest
       fill_in 'Answer', with: 'Test answer'
       click_on 'Reply'
 
-      expect(page).to have_content 'Your answer added'
-      expect(page).to have_content 'Test answer'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'Test answer'
+      end
     end
 
     scenario 'writes an answer to a question with errors' do
       click_on 'Reply'
 
-      expect(page).to have_content "Answer can't be blank"
+      expect(page).to have_content "Body can't be blank"
     end
   end
 
