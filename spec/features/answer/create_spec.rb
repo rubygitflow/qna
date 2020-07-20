@@ -14,13 +14,28 @@ feature 'The user, being on the question page, can write the answer to the quest
       visit question_path(question)
     end
 
-    scenario 'writes the answer to the question' do
-      fill_in 'Answer', with: 'Test answer'
-      click_on 'Reply'
+    describe 'create an answer with valid fields' do
+      background do
+        fill_in 'Answer', with: 'Test answer'
+      end
 
-      expect(current_path).to eq question_path(question)
-      within '.answers' do
-        expect(page).to have_content 'Test answer'
+      scenario 'writes the answer to the question' do
+        click_on 'Reply'
+
+        expect(current_path).to eq question_path(question)
+        within '.answers' do
+          expect(page).to have_content 'Test answer'
+        end
+      end
+
+      scenario 'attaches files' do
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Reply'
+
+        within '.answers' do
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
       end
     end
 
@@ -33,8 +48,6 @@ feature 'The user, being on the question page, can write the answer to the quest
 
   scenario 'Unauthenticated user trying to answer a question' do
     visit question_path(question)
-    click_on 'Reply'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_button 'Reply'
   end
 end
