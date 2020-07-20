@@ -10,7 +10,7 @@ feature 'User can edit his question', %q{
   given!(:question) { create(:question, user: user) }
   given!(:other_question) { create(:question) }
 
-  scenario 'Unauthenticated can not edit question' do
+  scenario 'Unauthenticated user can not edit question' do
     visit question_path(question)
 
     expect(page).to_not have_link 'Edit question'

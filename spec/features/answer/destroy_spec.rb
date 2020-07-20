@@ -12,7 +12,8 @@ feature "The author can delete his answer, but can not delete someone else's ans
 
     scenario 'being the author of the question' do
       visit question_path(answer.question)
-      within "#answer-#{answer.id}" do
+
+      within '.answers' do
         expect(page).to have_content 'harmful advice'
         accept_confirm do
           click_on 'Delete answer'

@@ -99,6 +99,39 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'DELETE #delete_file' do
+    before { login(user) }
+
+    context 'author' do
+      before { answer.files.attach(create_file_blob) }
+
+      it 'deletes the file' do
+        expect {
+          delete :delete_file, params: {id: answer, file_id: answer.files.first, format: :js}
+        }.to change(answer.files, :count).by(-1)
+      end
+
+      it 'renders the delete_file view' do
+        delete :delete_file, params: {id: answer, file_id: answer.files.first, format: :js}
+        expect(response).to render_template :delete_file
+      end
+    end
+
+    context 'not author' do
+      before { other_answer.files.attach(create_file_blob) }
+
+      it "doesn't delete the answer's file" do
+        expect {
+          delete :delete_file, params: {id: other_answer, file_id: other_answer.files.first, format: :js}
+        }.to_not change(other_answer.files, :count)
+      end
+
+      it 'returns forbidden' do
+        delete :delete_file, params: {id: other_answer, file_id: other_answer.files.first, format: :js}
+        expect(response).to be_forbidden
+      end
+    end
+  end
 
   describe 'POST #select_best' do
     before { login(user) }

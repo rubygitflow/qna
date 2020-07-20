@@ -152,9 +152,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     before { login(user) }
-
-    # Important! We do it before every Rspec-test!
-    let!(:question) { user.questions.create(attributes_for(:question)) }
+    let!(:question) { create(:question, user: user) }
     let!(:other_question) { create(:question) }
 
     context 'author' do
@@ -162,19 +160,55 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
 
-      it 'redirects to index' do
+      it 'redirects to show question page' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to questions_path
       end
     end
 
     context 'not author' do
-      it 'no deletes the question' do
+      it "doesn't delete the question" do
         expect { delete :destroy, params: { id: other_question } }.to_not change(Question, :count)
       end
 
-      it 'redirects to index' do
+      it 'redirects to show question page' do
         delete :destroy, params: { id: other_question }
+        expect(response).to redirect_to questions_path
+      end
+    end
+  end
+
+  describe 'DELETE #delete_file' do
+    before { login(user) }
+    let!(:question) { create(:question, user: user) }
+    let!(:other_question) { create(:question) }
+
+    context 'author' do
+      before { question.files.attach(create_file_blob) }
+
+      it 'deletes the file' do
+        expect {
+          delete :delete_file, params: {id: question, file_id: question.files.first, format: :js}
+        }.to change(question.files, :count).by(-1)
+      end
+
+      it 'renders the delete_file view' do
+        delete :delete_file, params: {id: question, file_id: question.files.first, format: :js}
+        expect(response).to render_template :delete_file
+      end
+    end
+
+    context 'not author' do
+      before { other_question.files.attach(create_file_blob) }
+
+      it "doesn't delete the question's file" do
+        expect {
+          delete :delete_file, params: {id: other_question, file_id: other_question.files.first, format: :js}
+        }.to_not change(other_question.files, :count)
+      end
+
+      it 'redirects to show question page' do
+        delete :delete_file, params: {id: other_question, file_id: other_question.files.first, format: :js}
         expect(response).to redirect_to questions_path
       end
     end
