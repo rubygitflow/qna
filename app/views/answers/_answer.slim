@@ -12,11 +12,7 @@
             span = link_to 'Delete file', attachment_path(file), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
 
     -if answer&.links.present?
-      .links
-        p Links:
-        ul
-          - answer&.links.each do |link|
-            li = link_to link.name, link.url
+      = render 'links/index', resource: answer
 
     - if is_author
       p

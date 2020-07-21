@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   layout :false, only: %i[create update destroy select_best]
   before_action :authenticate_user!, except: :show
-  before_action :find_question, only: %i[index create show]
+  before_action :find_question, only: %i[index create]
   before_action :load_answer, only: %i[show edit update destroy select_best]
   before_action :check_answer_author, only: %i[update destroy]
   before_action :check_question_author, only: :select_best
@@ -11,8 +11,6 @@ class AnswersController < ApplicationController
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.links.build
   end
 
   def new
