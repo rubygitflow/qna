@@ -6,10 +6,10 @@
 
   - if @question.files.attached?
     - @question.files.each do |file|
-      p id="question-file-#{file.id}"
+      p id="attachment-#{file.id}"
         span = link_to file.filename.to_s, url_for(file)
         - if is_author
-          span = link_to 'Delete file', delete_file_question_path(@question, file_id: file), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
+          span = link_to 'Delete file', attachment_path(file), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
 
 
   - if is_author

@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
-  layout :false, only: %i[update delete_file]
+  layout :false, only: %i[update]
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy delete_file]
+  before_action :load_question, only: %i[show edit update destroy]
   before_action :check_question_author, only: :update
 
   def index
@@ -37,18 +37,6 @@ class QuestionsController < ApplicationController
     if current_user.author?(@question)
       @question.destroy
       redirect_to questions_path, notice: 'Question was successfully deleted.'
-    else
-      return redirect_to questions_path, 
-      notice: "Deletion is not available! \
-               You are not the author of the question."
-    end
-
-  end
-
-  def delete_file
-    if current_user.author?(@question)
-      @attachment = ActiveStorage::Attachment.find(params[:file_id])
-      @attachment.purge
     else
       return redirect_to questions_path, 
       notice: "Deletion is not available! \
