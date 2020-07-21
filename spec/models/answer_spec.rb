@@ -8,8 +8,12 @@ RSpec.describe Answer, type: :model do
 
   describe 'validations' do
     it { should validate_presence_of :body }
-  end
   
+    it 'has many attached files' do
+      expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+    end
+  end
+
   describe '#select_best!' do
     let(:question) { create(:question) }
     let(:answer) { create(:answer, question: question) }

@@ -10,7 +10,7 @@ feature 'User can edit his question', %q{
   given!(:question) { create(:question, user: user) }
   given!(:other_question) { create(:question) }
 
-  scenario 'Unauthenticated can not edit question' do
+  scenario 'Unauthenticated user can not edit question' do
     visit question_path(question)
 
     expect(page).to_not have_link 'Edit question'
@@ -26,18 +26,30 @@ feature 'User can edit his question', %q{
         click_on 'Edit question'
       end
 
-      scenario 'without errors' do
-        within "#question" do
-          fill_in 'question[title]', with: 'edited question'
-          fill_in 'question[body]', with: 'edited explanation'
+      describe 'without errors' do
+        scenario 'changes fields' do
+          within "#question" do
+            fill_in 'question[title]', with: 'edited question'
+            fill_in 'question[body]', with: 'edited explanation'
 
-          click_on 'Save'
+            click_on 'Save'
 
-          expect(page).to_not have_content question.title
-          expect(page).to_not have_content question.body
-          expect(page).to have_content 'edited question'
-          expect(page).to have_content 'edited explanation'
-          expect(page).to_not have_selector 'textarea'
+            expect(page).to_not have_content question.title
+            expect(page).to_not have_content question.body
+            expect(page).to have_content 'edited question'
+            expect(page).to have_content 'edited explanation'
+            expect(page).to_not have_selector 'textarea'
+          end
+        end
+
+        scenario 'attaches files' do
+          within '#question' do
+            attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+            click_on 'Save'
+
+            expect(page).to have_link 'rails_helper.rb'
+            expect(page).to have_link 'spec_helper.rb'
+          end
         end
       end
 

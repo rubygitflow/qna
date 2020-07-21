@@ -99,7 +99,6 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-
   describe 'POST #select_best' do
     before { login(user) }
 

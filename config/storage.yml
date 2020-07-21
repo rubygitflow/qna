@@ -12,7 +12,7 @@ local:
 #   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
 #   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
 #   region: us-east-1
-#   bucket: your_own_bucket
+#   bucket: a_la_stackoverflow
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
@@ -27,8 +27,33 @@ local:
 #   storage_account_name: your_account_name
 #   storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
 #   container: your_container_name
-
+ 
 # mirror:
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
+
+# mcs?:
+#   service: S3
+#   access_key_id: <%= ENV['MCS_KEY_ID'] %>
+#   secret_access_key: <%= ENV['MCS_KEY_SECRET'] %>
+#   region: us-east-1
+#   bucket: alastackoverflow
+#   endpoint: hb.bizmrg.com
+
+# yandex:
+#   service: S3
+#   access_key_id: 'YOUR_ACCESS_KEY_ID'
+#   secret_access_key: 'YOUR_SECRET_ACCESS_KEY'
+#   bucket: bucketname
+#   endpoint: 'https://storage.yandexcloud.net'
+#   force_path_style: true
+
+clevercloud:
+  service: S3
+  access_key_id: <%= ENV['CELLAR_ADDON_KEY_ID'] %>
+  secret_access_key: <%= ENV['CELLAR_ADDON_KEY_SECRET'] %>
+  region: us-east-1
+  bucket: <%= ENV['CELLAR_ADDON_BUCKET_NAME'] %>
+  endpoint: 'https://cellar-c2.services.clever-cloud.com'
+  force_path_style: true

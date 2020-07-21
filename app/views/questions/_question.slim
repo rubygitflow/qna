@@ -2,7 +2,17 @@
   h1 = @question.title
   p = @question.body
 
-  - if current_user&.author?(@question)
+  - is_author = current_user&.author?(@question)
+
+  - if @question.files.attached?
+    - @question.files.each do |file|
+      p id="attachment-#{file.id}"
+        span = link_to file.filename.to_s, url_for(file)
+        - if is_author
+          span = link_to 'Delete file', attachment_path(file), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
+
+
+  - if is_author
     p
       span = link_to 'Edit question', '#', class: 'edit-question-link btn btn-info' , data: { question_id: @question.id }
       span = link_to 'Delete question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' 
@@ -17,4 +27,7 @@
       p
         = f.label :body, 'Your question'
         = f.text_area :body
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
       p= f.submit 'Save'

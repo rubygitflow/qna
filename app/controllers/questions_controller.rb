@@ -42,17 +42,16 @@ class QuestionsController < ApplicationController
       notice: "Deletion is not available! \
                You are not the author of the question."
     end
-
   end
 
   private
 
   def load_question
-    @question = Question.find(params[:id])
+    @question = Question.with_attached_files.find(params[:id])
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 
   def check_question_author

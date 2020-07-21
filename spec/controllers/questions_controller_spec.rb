@@ -152,9 +152,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     before { login(user) }
-
-    # Important! We do it before every Rspec-test!
-    let!(:question) { user.questions.create(attributes_for(:question)) }
+    let!(:question) { create(:question, user: user) }
     let!(:other_question) { create(:question) }
 
     context 'author' do
@@ -162,18 +160,18 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
 
-      it 'redirects to index' do
+      it 'redirects to show question page' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to questions_path
       end
     end
 
     context 'not author' do
-      it 'no deletes the question' do
+      it "doesn't delete the question" do
         expect { delete :destroy, params: { id: other_question } }.to_not change(Question, :count)
       end
 
-      it 'redirects to index' do
+      it 'redirects to show question page' do
         delete :destroy, params: { id: other_question }
         expect(response).to redirect_to questions_path
       end

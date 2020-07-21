@@ -21,30 +21,45 @@ feature 'User can edit his answer', %q{
     background { login(user) }
 
     describe 'edit his answer', js: true do
-      background { visit question_path(question) }
-
-      scenario 'without errors' do
-        # save_and_open_page
+      background do 
+        visit question_path(question)
 
         within "#answer-#{answer.id}" do
           click_on 'Edit answer'
-
-          fill_in 'answer[body]', with: 'edited answer'
-
-          click_on 'Save'
-
-          expect(page).to_not have_content answer.body
-          expect(page).to have_content 'edited answer'
-          expect(page).to_not have_selector 'textarea'
         end
       end
+
+      describe 'without errors' do
+        scenario 'changes fields' do
+          # save_and_open_page
+
+          within "#answer-#{answer.id}" do
+            fill_in 'answer[body]', with: 'edited answer'
+
+            click_on 'Save'
+
+            expect(page).to_not have_content answer.body
+            expect(page).to have_content 'edited answer'
+            expect(page).to_not have_selector 'textarea'
+          end
+        end
+
+        scenario 'attaches files' do
+          within "#answer-#{answer.id}" do
+            attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+            
+            click_on 'Save'
+
+            expect(page).to have_link 'rails_helper.rb'
+            expect(page).to have_link 'spec_helper.rb'
+          end
+        end
+      end 
 
       scenario 'with some errors' do
         # save_and_open_page
         
         within "#answer-#{answer.id}" do
-          click_on 'Edit answer'
-
           fill_in 'answer[body]', with: ''
 
           click_on 'Save'
