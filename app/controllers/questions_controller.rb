@@ -9,11 +9,13 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = Answer.new
+    @answer = @question.answers.build
+    @answer.links.build
   end
 
   def new
     @question = Question.new
+    @question.links.build
   end
 
   def edit
@@ -51,7 +53,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                      links_attributes: [:name, :url])
   end
 
   def check_question_author
