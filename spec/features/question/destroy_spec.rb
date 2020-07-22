@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "The author can delete their own question, but they can't delete someone else's question", %q(
+feature "The author can delete their own question, but they can't delete someone else's question", %(
   To get rid of an unnecessary question the question Author can delete the question
 ) do
   given(:user) { create(:user) }

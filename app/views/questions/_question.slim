@@ -11,6 +11,12 @@
         - if is_author
           span = link_to 'Delete file', attachment_path(file), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
 
+  - if @question.reward
+    = render @question.reward
+
+  -if @question&.links.present?
+    = render 'links/index', resource: @question
+
 
   - if is_author
     p
@@ -20,14 +26,4 @@
     div id="question-#{@question.id}-errors"
       = render 'shared/short_errors', resource: @question
 
-    = form_with model: @question, class: 'hidden', html: { id: "edit-question-#{@question.id}" } do |f|
-      p
-        = f.label :title, 'Topic of question'
-        = f.text_field :title
-      p
-        = f.label :body, 'Your question'
-        = f.text_area :body
-      p
-        = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
-      p= f.submit 'Save'
+    = render 'questions/form', question: @question

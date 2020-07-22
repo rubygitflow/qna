@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can select best answer', %q(
+feature 'User can select best answer', %(
   In order to show best answer for me
   As an author of question
   I'd like to be able to select best answer

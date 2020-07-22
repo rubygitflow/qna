@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :question do
     title
     user
-    body { "MyText" }
+    body { 'MyText' }
   end
 
   # Fix KeyError: Trait not registered: "invalid"

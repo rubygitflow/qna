@@ -1,6 +1,10 @@
-$('.answer-errors').html('<%= j render 'shared/errors', resource: @answer %>');
+<% if @answer.links.any?(&:gist?) %>
+  window.location.reload(false); // fix partial view of answer script
+<% else %>
+  $('#new-answer-errors').html('<%= j render 'shared/errors', resource: @answer %>');
 
-<% if @answer.persisted? %>
-  $('.answers').append('<%= j render @answer  %>');
-  $('.new-answer #answer_body').val('');
+  <% if @answer.persisted? %>
+    $('.answers').append('<%= j render @answer  %>');
+    $('.new-answer #answer_body').val('');
+  <% end %>
 <% end %>

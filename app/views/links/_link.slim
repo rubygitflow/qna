@@ -1,0 +1,11 @@
+div id="link-#{link.id}"
+  - if link.gist?
+    span
+      script src="#{link.url}.js"
+    - button_caption = 'Delete gist'
+  - else
+    span = link_to link.name, link.url
+    - button_caption = 'Delete link'
+
+  - if current_user&.author?(link.linkable)
+    span = link_to button_caption, link, method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'

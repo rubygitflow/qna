@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can register in the system', %q(
+feature 'User can register in the system', %(
   To enter the system, a non-registered user must register
 ) do
   background { visit new_user_registration_path }
