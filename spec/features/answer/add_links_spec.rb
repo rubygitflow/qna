@@ -1,6 +1,10 @@
 require 'rails_helper'
 
-feature 'User can add links to answer' do
+feature 'User can add links to answer', %(
+  In order to provide additional info to my answer
+  As an answer's author
+  I'd like to be able to add links
+) do
 
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }

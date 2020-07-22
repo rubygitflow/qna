@@ -1,6 +1,10 @@
 require 'rails_helper'
 
-feature 'User can add links to question' do
+feature 'User can add links to question', %(
+  In order to provide additional info to my question
+  As an question's author
+  I'd like to be able to add links
+) do
 
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/rubygitflow/62df15d04b4114e75e068c2bb07660e3' }

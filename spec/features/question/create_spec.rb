@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can create a question', %q(
+feature 'User can create a question', %(
   In order to receive a response from the community, 
   an authenticated user may ask a question
 ) do

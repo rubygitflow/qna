@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "The author can delete his answer, but can not delete someone else's answer", %q(
+feature "The author can delete his answer, but can not delete someone else's answer", %(
   To get rid of an unnecessary answer, the author of the answer may delete the answer
 ) do
   given(:user) { create(:user) }

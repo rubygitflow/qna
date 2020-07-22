@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can login', %q(
+feature 'User can login', %(
   To ask a question as an authenticated user, he must be able to log in
 ) do
   given(:user) { create(:user) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can log out', %q(
+feature 'User can log out', %(
   An authenticated user must log out to end the session
 ) do
   given(:user) { create(:user) }

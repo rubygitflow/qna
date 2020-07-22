@@ -1,5 +1,9 @@
-<% if @answer.errors.blank? %>
-  $('#answer-<%= @answer.id %>').replaceWith('<%= j render @answer  %>');
+<% if @answer.links.any?(&:gist?) %>
+  window.location.reload(false);  // fix partial view of question script
 <% else %>
-  $('#answer-<%= @answer.id %>-errors').html('<%= j render 'shared/short_errors', resource: @answer %>');
+  <% if @answer.errors.blank? %>
+    $('#answer-<%= @answer.id %>').replaceWith('<%= j render @answer %>');
+  <% else %>
+    $('#answer-<%= @answer.id %>-errors').html('<%= j render 'shared/short_errors', resource: @answer %>');
+  <% end %>
 <% end %>

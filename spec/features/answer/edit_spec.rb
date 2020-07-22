@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature 'User can edit his answer', %q{
+feature 'User can edit his answer', %(
   In order to correct mistakes
   As an author of answer
   I'd like to be able to edit my answer
-} do
+) do
 
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
@@ -21,6 +21,9 @@ feature 'User can edit his answer', %q{
     background { login(user) }
 
     describe 'edit his answer', js: true do
+      given(:google_url) { 'https://www.google.com/' }
+      given(:gist_url) { 'https://gist.github.com/rubygitflow/62df15d04b4114e75e068c2bb07660e3' }
+
       background do 
         visit question_path(question)
 
@@ -54,6 +57,26 @@ feature 'User can edit his answer', %q{
             expect(page).to have_link 'spec_helper.rb'
           end
         end
+
+        scenario 'can adds links' do
+          within "#answer-#{answer.id}" do
+            click_on 'add link'
+            within '.nested-fields:last-of-type' do
+              fill_in 'Link name', with: 'Google'
+              fill_in 'Url', with: google_url
+            end
+            click_on 'add link'
+            within '.nested-fields:last-of-type' do
+              fill_in 'Link name', with: 'My gist'
+              fill_in 'Url', with: gist_url
+            end
+
+            click_on 'Save'
+
+            expect(page).to have_content 'Gist for debugging the algorithm'
+            expect(page).to have_link 'Google', href: google_url
+          end
+        end        
       end 
 
       scenario 'with some errors' do
