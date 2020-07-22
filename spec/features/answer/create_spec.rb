@@ -16,7 +16,7 @@ feature 'The user, being on the question page, can write the answer to the quest
 
     describe 'create an answer with valid fields' do
       background do
-        fill_in 'Answer', with: 'Test answer'
+        fill_in 'Your answer', with: 'Test answer'
       end
 
       scenario 'writes the answer to the question' do
@@ -48,6 +48,8 @@ feature 'The user, being on the question page, can write the answer to the quest
 
   scenario 'Unauthenticated user trying to answer a question' do
     visit question_path(question)
+    
+    # save_and_open_page
     expect(page).to_not have_button 'Reply'
   end
 end

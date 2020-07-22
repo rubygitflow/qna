@@ -16,8 +16,9 @@ feature 'User can create a question', %(
 
     describe 'create a question with valid fields' do
       background do
-        fill_in 'Title', with: 'Test question'
-        fill_in 'Body', with: 'text text text'
+        # save_and_open_page
+        fill_in 'Topic of the question', with: 'Test question'
+        fill_in 'Your question', with: 'text text text'
       end
 
       scenario 'asks a question' do
@@ -34,6 +35,15 @@ feature 'User can create a question', %(
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+
+      scenario 'assigns an award for the best answer' do
+        fill_in 'Reward title', with: 'Test reward'
+        attach_file 'Reward file', "#{Rails.root}/spec/fixtures/files/1579489.png"
+        click_on 'Ask'
+
+        expect(page).to have_content 'Test reward'
+        expect(page).to have_link '1579489.png'
       end
     end
 

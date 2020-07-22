@@ -15,7 +15,7 @@ feature 'User can add links to answer', %(
     login(user)
     visit question_path(question)
 
-    fill_in "Answer", with: "Test answer"
+    fill_in "Your answer", with: "Test answer"
 
    click_on 'add link'
     within '.nested-fields:last-of-type' do

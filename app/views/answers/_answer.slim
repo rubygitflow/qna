@@ -26,21 +26,5 @@
         span = link_to 'Select best!', select_best_answer_path(answer), class: 'best-answer-link btn btn-success', method: :post, remote: true
 
     - if is_author
-      div id="answer-#{answer.id}-errors"
-        = render 'shared/short_errors', resource: answer
-
-      = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-        p
-          = f.label :body, 'Your answer'
-          = f.text_area :body
-        p
-          = f.label :files
-          = f.file_field :files, multiple: true, direct_upload: true
-
-        .answer-links
-          = f.fields_for :links do |link|
-            = render 'links/link_fields', f: link
-          p.links
-            = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
-
-        p = f.submit 'Save'
+      = render 'answers/form', answer: answer
+      

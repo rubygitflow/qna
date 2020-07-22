@@ -14,8 +14,8 @@ feature 'User can add links to question', %(
     login(user)
     visit new_question_path
 
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text text text'
+    fill_in 'Topic of the question', with: 'Test question'
+    fill_in 'Your question', with: 'text text text'
 
     click_on 'add link'
     within '.nested-fields:last-of-type' do

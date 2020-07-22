@@ -14,6 +14,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.build_reward
   end
 
   def edit
@@ -52,7 +53,8 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, files: [],
-                                      links_attributes: [:name, :url])
+                                      links_attributes: %i[name url], 
+                                      reward_attributes: %i[title file])
   end
 
   def check_question_author
