@@ -12,6 +12,7 @@ class Answer < ApplicationRecord
   def select_best!
     Answer.transaction do
       question.answers.update_all(best:false)
+      question.reward&.update!(user_id: user_id)
       update!(best: true)
     end
   end
