@@ -20,7 +20,7 @@
 
     - if current_user
       - unless is_author
-      p
+        p
           span = link_to 'Down!', 
                           down_answer_path(answer), 
                           method: :post, 
