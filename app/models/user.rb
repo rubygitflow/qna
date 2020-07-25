@@ -11,8 +11,4 @@ class User < ApplicationRecord
   def author?(resource)
     resource.user_id == id
   end
-  
-  def voted?(resource)
-    resource.votes.exists?(user_id: id)
-  end
 end

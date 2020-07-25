@@ -2,10 +2,6 @@
   h1 = @question.title
   p = @question.body
 
-  p
-    span Rating: 
-    span.rating = @question.rating
-
   - is_author = current_user&.author?(@question)
 
   - if @question.files.attached?
@@ -21,24 +17,6 @@
   -if @question&.links.present?
     = render 'links/index', resource: @question
 
-  - if current_user
-    - unless is_author
-      p
-        span = link_to 'Down!', 
-                        down_question_path(@question), 
-                        method: :post, 
-                        remote: true, 
-                        class: "down-question-link btn btn-warning rounded-circle #{current_user.voted?(@question) ? 'hidden' : ''}" 
-        span = link_to 'Up!', 
-                        up_question_path(@question), 
-                        method: :post, 
-                        remote: true, 
-                        class: "up-question-link btn btn-success rounded-circle #{current_user.voted?(@question) ? 'hidden' : ''}" 
-        span = link_to 'Cancel vote', 
-                        cancel_vote_question_path(@question), 
-                        method: :post, 
-                        remote: true,
-                        class: "cancel-vote-question-link btn btn-info rounded-circle #{current_user.voted?(@question) ? '' : 'hidden'}" 
 
   - if is_author
     p

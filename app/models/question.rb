@@ -1,6 +1,4 @@
 class Question < ApplicationRecord
-  include Votable
-
   belongs_to :user
 
   # https://guides.rubyonrails.org/association_basics.html
@@ -14,5 +12,4 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
   validates :title, :body, presence: true
-
 end

@@ -4,8 +4,6 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: %i[show edit update destroy]
   before_action :check_question_author, only: :update
 
-  include Voted
-
   def index
     @questions = Question.all
   end
