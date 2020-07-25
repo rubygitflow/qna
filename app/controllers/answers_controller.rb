@@ -6,6 +6,8 @@ class AnswersController < ApplicationController
   before_action :check_answer_author, only: %i[update destroy]
   before_action :check_question_author, only: :select_best
 
+  include Voted
+
   def index
     @answers = @question.answers
   end
