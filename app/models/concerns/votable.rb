@@ -7,9 +7,7 @@ module Votable
 
   def rating
     # votes.sum(:status ? 1 : -1)
-    pos = votes.count(:status, :conditions => ['status = ?', :true])
-    neg = votes.count(:status, :conditions => ['status = ?', :false])
-    pos - neg
+    votes.where(status: :true).count - votes.where(status: :false).count
   end
 
   def create_positive_vote(user_id)
