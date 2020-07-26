@@ -6,17 +6,14 @@ module Votable
   end
 
   def rating
-    # votes.sum(:status ? 1 : -1)
-    votes.where(status: :true).count - votes.where(status: :false).count
+    votes.sum(:status)
   end
 
-  def create_positive_vote(user_id)
-    puts "create_positive_vote"
-    votes.create_with(status: true).find_or_create_by(user_id: user_id)
+  def create_positive_vote(user)
+    votes.create_with(status: 1).find_or_create_by(user_id: user.id)
   end
 
-  def create_negative_vote(user_id)
-    puts "create_negative_vote"
-    votes.create_with(status: false).find_or_create_by(user_id: user_id)
+  def create_negative_vote(user)
+    votes.create_with(status: -1).find_or_create_by(user_id: user.id)
   end
 end

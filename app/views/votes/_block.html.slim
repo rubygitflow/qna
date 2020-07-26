@@ -1,0 +1,17 @@
+p
+  span = link_to 'Down!', 
+                  polymorphic_path(resource, action: :down),  
+                  method: :post, 
+                  remote: true, 
+                  class: "down-link btn btn-warning rounded-circle #{current_user.voted?(resource) ? 'hidden' : ''}"
+  span = link_to 'Up!', 
+                  polymorphic_path(resource, action: :up), 
+                  method: :post, 
+                  remote: true, 
+                  class: "up-link btn btn-success rounded-circle #{current_user.voted?(resource) ? 'hidden' : ''}"
+  span = link_to 'Cancel vote', 
+                  polymorphic_path(resource, action: :cancel_vote),  
+                  method: :post, 
+                  remote: true,
+                  class: "cancel-vote-link btn btn-info rounded-circle #{current_user.voted?(resource) ? '' : 'hidden'}"
+

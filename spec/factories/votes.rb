@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :vote do
-    status { false }
+    status 
     user
     votable
   end

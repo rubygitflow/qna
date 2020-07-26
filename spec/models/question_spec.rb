@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
+  let(:user) { create(:user) }
+
+  it_behaves_like 'votable'
+
   describe 'associations' do
     # http://matchers.shoulda.io/docs/v4.3.0/Shoulda/Matchers/ActiveRecord.html#have_many-instance_method
     it { should belong_to(:user) }

@@ -44,7 +44,7 @@ shared_examples_for 'voted' do
   end
 
   describe 'POST #cancel_vote' do
-    before { votable.create_negative_vote(user.id) }
+    before { votable.create_negative_vote(user) }
 
     it 'delete vote' do
       expect {

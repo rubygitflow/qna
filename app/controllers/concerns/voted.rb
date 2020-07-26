@@ -6,20 +6,24 @@ module Voted
   end
 
   def up
-    puts "up"
-    @votable.create_positive_vote(current_user.id) unless current_user.author?(@votable)
-    render json: {id: @votable.id, rating: @votable.rating}
+    @votable.create_positive_vote(current_user) unless current_user.author?(@votable)
+    render json: {id: @votable.id, 
+                  rating: @votable.rating, 
+                  type: @votable.class.name.downcase}
   end
 
   def down
-    puts "down"
-    @votable.create_negative_vote(current_user.id) unless current_user.author?(@votable)
-    render json: {id: @votable.id, rating: @votable.rating}
+    @votable.create_negative_vote(current_user) unless current_user.author?(@votable)
+    render json: {id: @votable.id, 
+                  rating: @votable.rating, 
+                  type: @votable.class.name.downcase}
   end
 
   def cancel_vote
     @votable.votes.find_by(user_id: current_user.id).try(:destroy)
-    render json: {id: @votable.id, rating: @votable.rating}
+    render json: {id: @votable.id, 
+                  rating: @votable.rating, 
+                  type: @votable.class.name.downcase}
   end
 
   private
