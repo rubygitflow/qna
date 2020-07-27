@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
   before_action :check_question_author, only: :update
+  after_action :publish_question, only: :create
 
   include Voted
 
@@ -63,5 +64,17 @@ class QuestionsController < ApplicationController
     unless current_user.author?(@question)
       head(:forbidden)
     end
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast(
+      'questions',
+      ApplicationController.render(
+        partial: 'questions/item_question',
+        locals: {question: @question},
+      )
+    )
   end
 end
