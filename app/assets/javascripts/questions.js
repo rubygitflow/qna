@@ -9,12 +9,14 @@ $(document).on('turbolinks:load', function () {
     $(`#edit-question-${questionId}`).removeClass('hidden');
   })
 
-  App.cable.subscriptions.create('QuestionsChannel', {
-    connected: function () {
-        this.perform("follow")
-    },
-    received: function (data) {
-        questionsList.append(data)
-    }
-  })
+  if (questionsList.length) {
+    App.cable.subscriptions.create('QuestionsChannel', {
+      connected: function () {
+          this.perform("follow")
+      },
+      received: function (data) {
+          questionsList.append(JST["templates/question"](JSON.parse(data)))
+      }
+    })
+  }
 })
