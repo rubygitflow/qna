@@ -1,12 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
+  let(:user) { create(:user) }
+
+  it_behaves_like 'votable'
+
   describe 'associations' do
     # http://matchers.shoulda.io/docs/v4.3.0/Shoulda/Matchers/ActiveRecord.html#have_many-instance_method
     it { should belong_to(:user) }
     it { should have_many(:answers).order('best DESC, created_at').dependent(:destroy) }
     it { should have_many(:links).dependent(:destroy) }
     it { should have_one(:reward).dependent(:destroy) }
+    it { should have_many(:votes).dependent(:destroy) }
   end
 
   describe 'validations' do

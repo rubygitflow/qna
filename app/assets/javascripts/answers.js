@@ -3,6 +3,7 @@ $(document).on('turbolinks:load', function () {
     event.preventDefault();
     $(this).hide();
     const answerId = $(this).data('answerId');
+    
     $(`#edit-answer-${answerId}`).removeClass('hidden');
   })
 })

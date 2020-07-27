@@ -4,6 +4,15 @@
 
     - is_author = current_user&.author?(answer)
 
+    div id="vote-answer-#{answer.id}"     
+      p
+        span Rating: 
+        span.rating= answer.rating
+        
+        - if current_user
+          - unless is_author
+            =render 'votes/block', resource: answer
+
     - if answer.files.attached?
       - answer.files.each do |file|
         p id="attachment-#{file.id}"
@@ -23,7 +32,7 @@
       - if answer.best?
         p class='best-answer-title' This is the best answer!
       - else
-        span = link_to 'Select best!', select_best_answer_path(answer), class: 'best-answer-link btn btn-success', method: :post, remote: true
+        p = link_to 'Select best!', select_best_answer_path(answer), class: 'best-answer-link btn btn-success', method: :post, remote: true
 
     - if is_author
       = render 'answers/form', answer: answer

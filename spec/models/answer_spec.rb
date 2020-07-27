@@ -1,10 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  let(:user) { create(:user) }
+
+  it_behaves_like 'votable'
+
   describe 'associations' do
     it { should belong_to(:question) }
     it { should belong_to(:user) }
     it { should have_many(:links).dependent(:destroy) }
+    it { should have_many(:votes).dependent(:destroy) }
   end
 
   describe 'validations' do
@@ -18,7 +23,6 @@ RSpec.describe Answer, type: :model do
   end
 
   describe '#select_best!' do
-    let(:user) { create(:user) }
     let(:question) { create(:question) }
     let!(:reward) { create(:reward, question: question) }
     let(:answer) { create(:answer, question: question, user: user) }
