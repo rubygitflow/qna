@@ -1,0 +1,13 @@
+blockquote id="answer-#{@id}"
+  p = @body
+
+  div id="vote-answer-#{@id}"     
+    p
+      span Rating: 
+      span.rating= @rating
+      
+    p
+      span 
+        a class="down-link btn btn-warning rounded-circle" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/down" = 'Down!'
+      span 
+        a class="up-link btn btn-success rounded-circle" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/up" = 'Up!'

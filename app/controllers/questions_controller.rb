@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
   before_action :check_question_author, only: :update
+  before_action :set_gon_user_id, only: %i[show]
   after_action :publish_question, only: :create
 
   include Voted
@@ -73,5 +74,9 @@ class QuestionsController < ApplicationController
       'questions',
       ApplicationController.render(json: @question)
     )
+  end
+
+  def set_gon_user_id
+    gon.user_id = current_user&.id
   end
 end
