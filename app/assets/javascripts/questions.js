@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function () {
   const questionsList = $('.questions-list')
-  const $question = $('#question')
+  const $question = $('.question')
 
   $question.on('click', '.edit-question-link', function (event) {
     event.preventDefault();

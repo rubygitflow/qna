@@ -1,6 +1,15 @@
 - if answer.persisted?
-  blockquote id="answer-#{answer.id}"
+  blockquote id="answer-#{answer.id}" class='border border-dark'
     p = answer.body
+
+    div id="comments-answer-#{answer.id}"
+      = render 'comments/index', resource: answer
+        
+      - if current_user
+        p 
+          = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: answer, commentable: 'answers')}
+
+          = render 'comments/form', comment: @comment
 
     - is_author = current_user&.author?(answer)
 

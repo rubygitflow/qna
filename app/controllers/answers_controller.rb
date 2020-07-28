@@ -14,6 +14,7 @@ class AnswersController < ApplicationController
   end
 
   def show
+    @comment = @answer.comments.build
   end
 
   def new

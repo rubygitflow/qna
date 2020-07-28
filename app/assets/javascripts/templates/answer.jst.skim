@@ -11,3 +11,6 @@ blockquote id="answer-#{@id}"
         a class="down-link btn btn-warning rounded-circle" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/down" = 'Down!'
       span 
         a class="up-link btn btn-success rounded-circle" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/up" = 'Up!'
+
+      span 
+        a class="cancel-vote-link btn btn-info rounded-circle hidden" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/cancel_vote" = 'Cancel vote'

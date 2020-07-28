@@ -30,7 +30,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
-gem "twitter-bootstrap-rails"
+gem 'bootstrap', '~> 4.5.0'
 gem "aws-sdk-s3", require: false
 gem 'cocoon'
 gem 'skim'

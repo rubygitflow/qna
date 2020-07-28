@@ -1,6 +1,15 @@
-#question data-question-id=@question.id
+.question id="question-#{@question.id}" data-question-id=@question.id
   h1 = @question.title
   p = @question.body
+
+  div id="comments-question-#{@question.id}"
+    = render 'comments/index', resource: @question
+
+    - if current_user
+      p 
+        = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: @question, commentable: 'questions')}
+
+        = render 'comments/form', comment: @comment
 
   - is_author = current_user&.author?(@question)
 

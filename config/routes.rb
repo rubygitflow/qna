@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   resources :rewards, only: :index
   resources :attachments, only: :destroy
   resources :links, only: :destroy
+  resources :comments, only: %i[new create] do
+    get :new
+    post :create
+  end  
 
   mount ActionCable.server => '/cable'
 end

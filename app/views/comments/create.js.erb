@@ -1,0 +1,8 @@
+<% block = "##{params[:commentable].singularize}-#{params[:id]}" %>
+<% if @comment.persisted? %>
+  $('<%= block %> .comments-list').append('<%= j render @comment %>');
+  $('<%= block %> .create-comment-form').addClass('hidden');
+  $('<%= block %> .create-comment-form #comment_body').val('');
+<% else %>
+  $('<%= block %> .create-comment-form #comment-errors').html('<%= render 'shared/errors', resource: @comment %>');
+<% end %>

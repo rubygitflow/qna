@@ -12,7 +12,7 @@ feature 'Author of question can delete attached files' do
       question.files.attach(create_file_blob)
       visit question_path(question)
 
-      within '#question' do
+      within "#question-#{question.id}" do
         expect(page).to have_content 'example1.jpg'
         accept_confirm do
           click_on 'Delete file'
@@ -25,7 +25,7 @@ feature 'Author of question can delete attached files' do
       other_question.files.attach(create_file_blob)
       visit question_path(other_question)
 
-      within '#question' do
+      within "#question-#{other_question.id}" do
         expect(page).to_not have_link 'Delete file'
       end
     end
@@ -33,7 +33,7 @@ feature 'Author of question can delete attached files' do
 
   scenario "Unauthenticated user can't delete attached files" do
     visit question_path(question)
-    within '#question' do
+    within "#question-#{question.id}" do
       expect(page).to_not have_link 'Delete file'
     end
   end
