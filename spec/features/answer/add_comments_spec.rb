@@ -34,4 +34,34 @@ feature 'User can add comments to answer' do
       expect(page).to have_content "Body can't be blank"
     end
   end
+  
+  scenario "comment appears on another user's page", js: true do
+    Capybara.using_session('user') do
+      login(user)
+      visit question_path(question)
+    end
+
+    Capybara.using_session('guest') do
+      visit question_path(question)
+    end
+
+    Capybara.using_session('user') do
+      within "#answer-#{answer.id}" do
+        click_on 'Add comment'
+      end
+
+      fill_in 'Your comment', with: 'New comment'
+      click_on 'Remark'
+
+      within "#answer-#{answer.id}" do
+        expect(page).to have_content 'New comment'
+      end
+    end
+
+    Capybara.using_session('guest') do
+      within "#answer-#{answer.id}" do
+        expect(page).to have_content 'New comment'
+      end
+    end
+  end
 end

@@ -1,5 +1,5 @@
 - if answer.persisted?
-  blockquote id="answer-#{answer.id}" class='border border-dark'
+  blockquote id="answer-#{answer.id}" class='answer border border-dark'  data-answer-id=@answer.id
     p = answer.body
 
     div id="comments-answer-#{answer.id}"
@@ -7,7 +7,7 @@
         
       - if current_user
         p 
-          = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: answer, commentable: 'answers')}
+          = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: answer, commentable: 'answers'), resourсe_id: answer.id, resourсe_type: 'answer'}
 
           = render 'comments/form', comment: @comment
 

@@ -76,8 +76,4 @@ class QuestionsController < ApplicationController
       ApplicationController.render(json: @question)
     )
   end
-
-  def set_gon_user_id
-    gon.user_id = current_user&.id
-  end
 end

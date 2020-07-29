@@ -15,6 +15,7 @@ html
       .container
         a.navbar-brand href="/"Qna    
         - if user_signed_in?
+          span.mx-3 = current_user.email
           span.mx-3 = link_to 'Log out', destroy_user_session_path, method: :delete
         - else
           span.mx-3 = link_to 'Sign in', new_user_session_path

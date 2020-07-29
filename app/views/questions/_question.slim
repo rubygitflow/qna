@@ -7,7 +7,7 @@
 
     - if current_user
       p 
-        = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: @question, commentable: 'questions')}
+        = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: @question, commentable: 'questions'), resourсe_id: @question.id, resourсe_type: 'question'}
 
         = render 'comments/form', comment: @comment
 

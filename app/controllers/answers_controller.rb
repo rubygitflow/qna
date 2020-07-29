@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: %i[show edit update destroy select_best]
   before_action :check_answer_author, only: %i[update destroy]
   before_action :check_question_author, only: :select_best
+  before_action :set_gon_user_id, only: :create
   after_action :publish_answer, only: :create
 
   include Voted
@@ -25,8 +26,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params.merge(user: current_user))
-    @answer.save
+    @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
 
@@ -73,7 +73,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
 
     ActionCable.server.broadcast(
-      "question_#{@answer.question_id}",
+      "questions_#{@answer.question_id}_answers",
       ApplicationController.render(json: @answer.attributes.merge(rating: @answer.rating))
     )
   end
