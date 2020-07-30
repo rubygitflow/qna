@@ -1,0 +1,11 @@
+= form_with model: comment, class: 'create-comment-form hidden', url: '#' do |f|
+
+  div id='comment-errors'
+    = render 'shared/short_errors', resource: comment
+
+  .new-comment
+    p
+      = f.label :body, 'Your comment'
+      = f.text_field :body
+
+  p= f.submit 'Remark'

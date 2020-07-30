@@ -4,20 +4,22 @@ html
     title QnA
     = csrf_meta_tags
     = csp_meta_tag
+
+    = Gon::Base.render_data
     = stylesheet_link_tag    "application", media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag  "application", 'data-turbolinks-track': 'reload'
+    = action_cable_meta_tag
 
   body
     .navbar.navbar-default.navbar-static-top
       .container
-        a.navbar-brand href="/"Qna
-        .navbar-collapse.collapse.navbar-responsive-collapse
-          ul.nav.navbar-nav
-            - if user_signed_in?
-              = link_to 'Log out', destroy_user_session_path, method: :delete
-            - else
-              = link_to 'Sign in', new_user_session_path
-              = link_to 'Sign up', new_user_registration_path
+        a.navbar-brand href="/"Qna    
+        - if user_signed_in?
+          span.mx-3 = current_user.email
+          span.mx-3 = link_to 'Log out', destroy_user_session_path, method: :delete
+        - else
+          span.mx-3 = link_to 'Sign in', new_user_session_path
+          span.mx-3 = link_to 'Sign up', new_user_registration_path
 
     .container
       .row

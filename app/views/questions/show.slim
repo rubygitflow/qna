@@ -1,8 +1,8 @@
-#vouting
+#vouting.comments-area  data-resourсe-id=@question.id data-resourсe-type="question" 
   = render @question
 
   h2 Answers
-  .answers
+  .answers id="answers-#{@question.id}"
     = render @question.answers
 
   - if user_signed_in?

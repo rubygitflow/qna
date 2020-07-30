@@ -52,4 +52,30 @@ feature 'The user, being on the question page, can write the answer to the quest
     # save_and_open_page
     expect(page).to_not have_button 'Reply'
   end
+
+  scenario "answer appears on another user's page", js: true do
+    Capybara.using_session('user') do
+      login(user)
+      visit question_path(question)
+    end
+
+    Capybara.using_session('guest') do
+      visit question_path(question)
+    end
+
+    Capybara.using_session('user') do
+      fill_in 'Your answer', with: 'Test answer'
+
+      click_on 'Reply'
+
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'Test answer'
+      end
+    end
+
+    Capybara.using_session('guest') do
+      expect(page).to have_content 'Test answer'
+    end
+  end
 end

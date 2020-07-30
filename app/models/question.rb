@@ -1,8 +1,8 @@
 class Question < ApplicationRecord
+  include Authorable
   include Votable
-
-  belongs_to :user
-
+  include Commentable
+  
   # https://guides.rubyonrails.org/association_basics.html
   # https://apidock.com/rails/ActiveRecord/Associations/ClassMethods/has_many
   has_many :answers, -> { order('best DESC, created_at') }, dependent: :destroy

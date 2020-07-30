@@ -2,7 +2,7 @@
   window.location.reload(false); // fix partial view of question script
 <% else %>
   <% if @question.errors.blank? %>
-    $('#question').replaceWith('<%= j render @question %>');
+    $("#question-<%= @question.id %>").replaceWith('<%= j render @question %>');
   <% else %>
     $('#question-<%= @question.id %>-errors').html('<%= j render 'shared/errors', resource: @question %>');
   <% end %>

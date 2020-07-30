@@ -17,12 +17,12 @@ $(document).on('turbolinks:load', function () {
   }
 
   $('#vouting').on('ajax:success', '.up-link, .down-link', function (e) {
-    var resourse = e.detail[0];
+    const resourse = e.detail[0];
     casel_vote(resourse);
   })
 
   $('#vouting').on('ajax:success', '.cancel-vote-link', function (e) {
-    var resourse = e.detail[0];
+    const resourse = e.detail[0];
     start_vote(resourse);
   })  
 })

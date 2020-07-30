@@ -31,7 +31,7 @@ feature 'User can edit his question', %(
         given(:gist_url) { 'https://gist.github.com/rubygitflow/62df15d04b4114e75e068c2bb07660e3' }
 
         scenario 'changes fields' do
-          within "#question" do
+          within "#question-#{question.id}" do
             fill_in 'question[title]', with: 'edited question'
             fill_in 'question[body]', with: 'edited explanation'
 
@@ -46,7 +46,7 @@ feature 'User can edit his question', %(
         end
 
         scenario 'attaches files' do
-          within '#question' do
+          within "#question-#{question.id}" do
             attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
             click_on 'Save'
 
@@ -56,7 +56,7 @@ feature 'User can edit his question', %(
         end
 
         scenario 'can add links' do
-          within '#question' do
+          within "#question-#{question.id}" do
             click_on 'add link'
             within '.nested-fields:last-of-type' do
               fill_in 'Link name', with: 'Google'
@@ -79,7 +79,7 @@ feature 'User can edit his question', %(
 
       scenario 'with some errors' do
         
-        within "#question" do
+        within "#question-#{question.id}" do
           fill_in 'question[title]', with: ''
           fill_in 'question[body]', with: ''
 
