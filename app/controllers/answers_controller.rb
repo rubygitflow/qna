@@ -5,7 +5,6 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: %i[show edit update destroy select_best]
   before_action :check_answer_author, only: %i[update destroy]
   before_action :check_question_author, only: :select_best
-  before_action :set_gon_user_id, only: :create
   after_action :publish_answer, only: :create
 
   include Voted
@@ -74,7 +73,7 @@ class AnswersController < ApplicationController
 
     ActionCable.server.broadcast(
       "questions_#{@answer.question_id}_answers",
-      ApplicationController.render(json: @answer.attributes.merge(rating: @answer.rating))
+      @answer.attributes.merge(rating: @answer.rating)
     )
   end
 

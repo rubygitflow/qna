@@ -3,7 +3,6 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_commentable
   after_action :publish_comment, only: :create
-  before_action :set_gon_user_id, only: :create
 
   def create
     @comment = @commentable.comments.create(comment_params.merge(user: current_user))
@@ -30,11 +29,7 @@ class CommentsController < ApplicationController
 
     ActionCable.server.broadcast(
       "questions_#{question_id}_comments",
-      ApplicationController.render(json: @comment)
+      @comment
     )
-  end
-
-  def set_gon_user_id
-    gon.user_id = current_user&.id
   end
 end

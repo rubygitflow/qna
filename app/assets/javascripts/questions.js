@@ -16,7 +16,9 @@ $(document).on('turbolinks:load', function () {
         this.perform("follow")
       },
       received: function (data) {
-        questionsList.append(JST["templates/question"](JSON.parse(data)))
+        if (gon.user_id !== data.user_id){
+          questionsList.append(JST["templates/question"](data))
+        }
       }
     })
   }
@@ -29,8 +31,6 @@ $(document).on('turbolinks:load', function () {
         this.perform("follow", {question_id: questionId})
       },
       received: function (data) {
-        data = JSON.parse(data)
-
         if (gon.user_id !== data.user_id){
           $('.answers').append(JST["templates/answer"](data))
         }

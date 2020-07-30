@@ -18,8 +18,6 @@ document.addEventListener('turbolinks:load', () => {
         this.perform("follow_comments", {question_id: questionId})
       },
       received: function (data) {
-        data = JSON.parse(data)
-
         if (gon.user_id !== data.user_id){
           $(`#comments-${data.commentable_type.toLowerCase()}-${data.commentable_id} .comments-list`)
             .append(JST["templates/comment"](data))
