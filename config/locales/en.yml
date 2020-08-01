@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+
+  oauth_callbacks:
+    failure: 'Something went wrong'
