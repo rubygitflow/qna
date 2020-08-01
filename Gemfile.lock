@@ -58,10 +58,10 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    autoprefixer-rails (9.8.5)
+    autoprefixer-rails (9.8.6)
       execjs
     aws-eventstream (1.1.0)
-    aws-partitions (1.345.0)
+    aws-partitions (1.349.0)
     aws-sdk-core (3.104.3)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -96,6 +96,9 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     cocoon (1.2.14)
+    coffee-rails (5.0.0)
+      coffee-script (>= 2.2.0)
+      railties (>= 5.2.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -241,11 +244,6 @@ GEM
       rubyzip (>= 1.2.2)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
-    skim (0.10.0)
-      coffee-script
-      coffee-script-source (>= 1.2.0)
-      slim (>= 3.0)
-      sprockets (>= 2, < 4)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -301,6 +299,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   cocoon
+  coffee-rails (~> 5.0)
   devise
   dotenv-rails
   factory_bot_rails
@@ -317,7 +316,6 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver
   shoulda-matchers (~> 4.0)
-  skim
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)

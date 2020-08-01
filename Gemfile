@@ -33,7 +33,7 @@ gem 'jquery-rails'
 gem 'bootstrap', '~> 4.5.0'
 gem "aws-sdk-s3", require: false
 gem 'cocoon'
-gem 'skim'
+gem 'coffee-rails', '~> 5.0'
 gem 'gon'
 
 group :development, :test do
