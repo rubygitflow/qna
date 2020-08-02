@@ -8,7 +8,7 @@ class User < ApplicationRecord
   # :lockable, :timeoutable, :trackable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         # :confirmable,
+         :confirmable,
          :omniauthable, omniauth_providers: [:github]
 
   def self.find_for_oauth(auth)
