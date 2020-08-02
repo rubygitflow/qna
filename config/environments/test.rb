@@ -55,6 +55,12 @@ Rails.application.configure do
     {
       :provider => 'github',
       :uid => '4321',
-      :info => {:email => 'user@mail.com'}
+      :info => {:email => 'github_user@mail.com'}
     })
+  OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new(
+    {
+      :provider => 'facebook',
+      :uid => '4321',
+      :info => {:email => 'facebook_user@mail.com'}
+    })  
 end

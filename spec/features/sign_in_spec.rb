@@ -31,14 +31,25 @@ feature 'User can login', %(
     expect(page).to have_content 'Invalid Email or password.'
   end
 
-  scenario "User can sign in with Github account" do
+  scenario 'User can sign in with Github account' do
     click_on "Sign in with GitHub"
     expect(page).to have_content 'Successfully authenticated from Github account.'
   end
 
-  scenario "App handles an authentication error" do
+  scenario 'App handles an authentication error from Github' do
     OmniAuth.config.mock_auth[:github] = :invalid_credentials
     click_on "Sign in with GitHub"
+    expect(page).to have_content 'Invalid credentials'
+  end
+
+  scenario 'User can sign in with Facebook account' do
+    click_on "Sign in with Facebook"
+    expect(page).to have_content 'Successfully authenticated from Facebook account.'
+  end
+
+  scenario 'App handles an authentication error from Facebook' do
+    OmniAuth.config.mock_auth[:facebook] = :invalid_credentials
+    click_on "Sign in with Facebook"
     expect(page).to have_content 'Invalid credentials'
   end
 end

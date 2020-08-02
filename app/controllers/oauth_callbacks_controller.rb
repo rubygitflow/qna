@@ -1,7 +1,9 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   def github
-    # # check auth provider info
-    # render json: request.env['omniauth.auth']
+    auth_authentication
+  end
+
+  def facebook
     auth_authentication
   end
 
