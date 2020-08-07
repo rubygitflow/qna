@@ -8,7 +8,11 @@ document.addEventListener('turbolinks:load', () => {
     near_form.removeClass('hidden');
   })
 
-  const $question = $('.question')
+  const $question = $('.question');
+
+  function templatesComment(data) {
+    return `    <li id="comment-${data.id}"> ${data.body} </li>`;
+  }
 
   if ($question.length) {
     const questionId = $question.data('questionId')
@@ -20,7 +24,7 @@ document.addEventListener('turbolinks:load', () => {
       received: function (data) {
         if (gon.user_id !== data.user_id){
           $(`#comments-${data.commentable_type.toLowerCase()}-${data.commentable_id} .comments-list`)
-            .append(JST["templates/comment"](data))
+            .append(templatesComment(data));
         }
       }
     })
