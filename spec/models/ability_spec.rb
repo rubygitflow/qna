@@ -48,9 +48,6 @@ describe Ability, type: :model do
     it { should be_able_to :destroy, create(:answer, user: user) }
     it { should_not be_able_to :destroy, create(:answer, user: other) }
 
-    # it { should be_able_to :destroy, create(:comment, user: user) }
-    # it { should_not be_able_to :destroy, create(:comment, user: other) }
-
     it { should be_able_to :destroy, create(:comment, commentable: create(:question, user: user), user: user) }
     it { should_not be_able_to :destroy, create(:comment, commentable: create(:question, user: user), user: other) }
     it { should be_able_to :destroy, create(:comment, commentable: create(:answer, user: user), user: user) }
