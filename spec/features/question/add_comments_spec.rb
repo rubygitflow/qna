@@ -17,7 +17,7 @@ feature 'User can add comments to question' do
       visit question_path(question)
     end
 
-    scenario "add comment to question with valid fields" do
+    scenario "adds comment to question with valid fields" do
       within "#question-#{question.id}" do
         click_on 'Add comment'
         fill_in 'Your comment', with: 'New comment'
@@ -26,7 +26,7 @@ feature 'User can add comments to question' do
       end
     end
 
-    scenario "add comment to question with invalid fields" do
+    scenario "adds comment to question with invalid fields" do
       within "#question-#{question.id}" do
         click_on 'Add comment'
         click_on 'Remark'

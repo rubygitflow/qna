@@ -5,7 +5,7 @@
   div id="comments-question-#{@question.id}"
     = render 'comments/index', resource: @question
 
-    - if current_user
+    - if can?(:create, @comment)
       p 
         = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: @question, commentable: 'questions'), resourсe_id: @question.id, resourсe_type: 'question'}
 
@@ -37,10 +37,13 @@
 
   - if is_author
     p
-      span = link_to 'Edit question', '#', class: 'edit-question-link btn btn-info' , data: { question_id: @question.id }
-      span = link_to 'Delete question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' 
+      - if can?(:update, @question)  
+        span = link_to 'Edit question', '#', class: 'edit-question-link btn btn-info' , data: { question_id: @question.id }
+      - if can?(:destroy, @question)  
+        span = link_to 'Delete question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' 
 
     div id="question-#{@question.id}-errors"
       = render 'shared/short_errors', resource: @question
 
-    = render 'questions/form', question: @question
+    - if can?(:create, @question)  
+      = render 'questions/form', question: @question

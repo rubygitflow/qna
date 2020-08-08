@@ -20,7 +20,7 @@ feature 'User can add comments to answer' do
       end
     end
 
-    scenario "add comment to answer with valid fields" do
+    scenario "adds comment to answer with valid fields" do
       fill_in 'Your comment', with: 'New comment'
       click_on 'Remark'
 
@@ -29,7 +29,7 @@ feature 'User can add comments to answer' do
       end
     end
 
-    scenario "add comment to answer with invalid fields" do
+    scenario "adds comment to answer with invalid fields" do
       click_on 'Remark'
       expect(page).to have_content "Body can't be blank"
     end
