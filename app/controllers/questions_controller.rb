@@ -5,6 +5,8 @@ class QuestionsController < ApplicationController
   before_action :check_question_author, only: :update
   after_action :publish_question, only: :create
 
+  authorize_resource
+
   include Voted
 
   def index

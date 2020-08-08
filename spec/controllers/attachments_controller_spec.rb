@@ -58,14 +58,14 @@ RSpec.describe AttachmentsController, type: :controller do
         }.to_not change(other_answer.files, :count)
       end
 
-      it 'renders the destroy view after other question edition' do
+      it 'returns forbidden status after other question edition' do
         delete :destroy, params: {id: other_question.files.first, format: :js}
-        expect(response).to render_template :destroy
+        expect(response).to have_http_status(:forbidden)
       end
 
-      it 'renders the destroy view after other answer edition' do
+      it 'returns forbidden status after other answer edition' do
         delete :destroy, params: {id: other_answer.files.first, format: :js}
-        expect(response).to render_template :destroy
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

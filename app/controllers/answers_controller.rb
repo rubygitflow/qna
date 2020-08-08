@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
   before_action :check_question_author, only: :select_best
   after_action :publish_answer, only: :create
 
+  authorize_resource
+
   include Voted
 
   def index
