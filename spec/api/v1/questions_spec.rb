@@ -9,10 +9,10 @@ describe 'Questions API', type: :request do
   end
 
   describe 'GET /api/v1/questions' do
-    it_behaves_like 'API Authorizable' do
-      let(:method) { :get }
-      let(:api_path) { '/api/v1/questions' }
-    end
+    let(:method) { :get }
+    let(:api_path) { '/api/v1/questions' }
+
+    it_behaves_like 'API Authorizable'
     
     context 'authorized' do
       let(:access_token) { create(:oauth_access_token) }
@@ -21,13 +21,19 @@ describe 'Questions API', type: :request do
       let(:question_response) { json['questions'].first }
       let!(:answers) { create_list(:answer, 3, question: question) }
 
-      before { get '/api/v1/questions', params: {access_token: access_token.token}, headers: headers }
+      before do 
+        do_request(
+          method, api_path, 
+          params: { access_token: access_token.token }, 
+          headers: headers 
+        )
+      end
 
-      it 'returns 200 status' do
+      it 'returns 200`s status' do
         expect(response).to be_successful
       end
 
-      it 'return list of questions' do
+      it 'returns list of questions' do
         expect(json['questions'].size).to eq 2
       end
 
