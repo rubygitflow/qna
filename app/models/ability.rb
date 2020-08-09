@@ -27,7 +27,10 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user_id: user.id
-    can :destroy, [Question, Answer, Comment], user_id: user.id
+    can :destroy, [Question, Answer], user_id: user.id
+    can :destroy, Comment do |comment|
+      user.id == comment.user.id
+    end    
     can :destroy, ActiveStorage::Attachment do |attachment|
       user.author?(attachment.record)
     end
