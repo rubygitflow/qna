@@ -26,9 +26,7 @@ describe 'Profiles API', type: :request do
           headers: headers)
       end
 
-      it 'returns 200`s status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'successful status'
 
       it 'returns all public fields' do
         %w[id email admin created_at updated_at].each do |attr|
@@ -65,9 +63,7 @@ describe 'Profiles API', type: :request do
         )
       end
 
-      it 'returns 200`s status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'successful status'
 
       it 'returns list of users without me' do
         expect(json['users'].size).to eq 2
