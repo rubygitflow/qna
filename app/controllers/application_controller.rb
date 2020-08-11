@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
     if is_navigational_format?
       redirect_to root_url, alert: exception.message
     else
-      head(:forbidden)
+      render json: {errors: exception.message}, status: :forbidden 
     end
   end
 
