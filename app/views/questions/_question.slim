@@ -22,6 +22,13 @@
       - unless is_author
         =render 'votes/block', resource: @question
 
+    - if can?(:create, Subscription)
+      = link_to('Subscribe', question_subscriptions_path(@question), method: :post, remote: true,
+              class: "subscribe-question-link #{current_user.subscribed?(@question) ? 'hidden' : ''}")
+    - if can?(:destroy, Subscription)
+      = link_to('Unsubscribe', subscription_path(@question), method: :delete, remote: true,
+              class: "unsubscribe-question-link #{current_user.subscribed?(@question) ? '' : 'hidden'}")
+ 
   - if @question.files.attached?
     - @question.files.each do |file|
       p id="attachment-#{file.id}"

@@ -43,5 +43,6 @@ class Ability
       !user.author?(resource)
     end
     can :cancel_vote, [Question, Answer]
+    can [:create, :destroy], Subscription
   end
 end
