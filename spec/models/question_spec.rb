@@ -27,7 +27,16 @@ RSpec.describe Question, type: :model do
       expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
     end
   end
-  
+
+  describe 'Scopes' do
+    let(:question) { create(:question) }
+    let(:questions) { create_list(:question, 2, created_at: Date.yesterday) }
+
+    it 'is questions for the last day' do
+      expect(Question.created_prev_day).to eq questions
+    end
+  end
+
   describe 'reputation' do
     let(:question) { build(:question) }
 

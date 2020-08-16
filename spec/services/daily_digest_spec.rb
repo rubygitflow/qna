@@ -1,10 +1,18 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe DailyDigest do
-  let(:users) { create_list(:user, 3) }
+RSpec.describe DailyDigest, type: :mailer do
+  describe "digest" do
+    let(:user) {create(:user) }
+    let(:mail) { DailyDigestMailer.digest(user) }
 
-  it 'sends daily digest to all users' do
-    users.each { |user| expect(DailyDigestMailer).to receive(:digest).with(user).and_call_original }
-    subject.send_digest
+    it "renders the headers" do
+      expect(mail.subject).to eq("Digest")
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq(["from@example.com"])
+    end
+
+    it "renders the body" do
+      expect(mail.body.encoded).to match("QnA")
+    end
   end
 end

@@ -18,7 +18,9 @@ class Question < ApplicationRecord
 
   after_create :calculate_reputation
   after_create :create_subscription
-  
+
+  scope :created_prev_day, -> { where(created_at: Date.today.prev_day.all_day) }
+    
   private
 
   def calculate_reputation

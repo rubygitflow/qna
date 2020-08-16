@@ -1,3 +1,7 @@
-' DailyDigest#digest
-= "\r\n" * 2
-' #{@greeting + ", find me in app/views/daily_digest_mailer/digest.text.slim"}
+| QnA
+= "\r\n"
+| New questions
+- @questions.each do |question|
+  = "\r\n"
+  = question.title
+  
