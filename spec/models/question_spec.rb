@@ -13,6 +13,7 @@ RSpec.describe Question, type: :model do
     it { should have_one(:reward).dependent(:destroy) }
     it { should have_many(:votes).dependent(:destroy) }
     it { should have_many(:comments).dependent(:destroy) }
+    it { should have_many(:subscriptions).dependent(:destroy) }
   end
 
   describe 'validations' do
@@ -24,6 +25,38 @@ RSpec.describe Question, type: :model do
 
     it 'has many attached files' do
       expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+    end
+  end
+
+  describe 'Scopes' do
+    let(:question) { create(:question) }
+    let(:questions) { create_list(:question, 2, created_at: Date.yesterday) }
+
+    it 'is questions for the last day' do
+      expect(Question.created_prev_day).to eq questions
+    end
+  end
+
+  describe 'reputation' do
+    let(:question) { build(:question) }
+
+    it 'calls ReputationJob' do
+      expect(ReputationJob).to receive(:perform_later).with(question)
+      question.save!
+    end
+  end
+
+  describe 'user creates subscription' do
+    let(:question) { build(:question) }
+
+    it 'calls create_subscription' do
+      expect(question).to receive(:create_subscription)
+      question.save!
+    end
+    
+    it 'is subscribed to question' do
+      question.save!
+      expect(question.user).to be_subscribed(question)
     end
   end
 end

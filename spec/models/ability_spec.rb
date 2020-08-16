@@ -80,5 +80,10 @@ describe Ability, type: :model do
 
     it { should be_able_to :cancel_vote, Question }
     it { should be_able_to :cancel_vote, Answer }
+
+    it { should be_able_to :create, create(:subscription, user: user) }
+    it { should be_able_to :destroy, create(:subscription, user: user) }
+    it { should_not be_able_to :destroy, create(:subscription, user: other) }
+
   end
 end

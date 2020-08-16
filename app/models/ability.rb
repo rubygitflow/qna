@@ -43,5 +43,9 @@ class Ability
       !user.author?(resource)
     end
     can :cancel_vote, [Question, Answer]
+    can :create, Subscription
+    can :destroy, Subscription do |sub|
+      user.id == sub.user_id
+    end
   end
 end

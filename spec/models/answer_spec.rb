@@ -22,6 +22,15 @@ RSpec.describe Answer, type: :model do
     end
   end
 
+  describe 'send email notification after create' do
+    let(:answer) { build(:answer) }
+
+    it 'calls AnswerNotificationJob' do
+      expect(AnswerNotificationJob).to receive(:perform_later).with(answer)
+      answer.save!
+    end
+  end
+
   describe '#select_best!' do
     let(:question) { create(:question) }
     let!(:reward) { create(:reward, question: question) }
