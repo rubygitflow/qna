@@ -1,0 +1,6 @@
+h2 Search results:
+- if @results.empty?
+  p= "Nothing has been found"
+- else
+  - @results.each do |object|
+    = render "search/#{object.class.name.underscore}", object: object

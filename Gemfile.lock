@@ -118,6 +118,13 @@ GEM
     concurrent-ruby (1.1.6)
     connection_pool (2.2.3)
     crass (1.0.6)
+    database_cleaner (1.8.5)
+    database_cleaner-active_record (1.8.0)
+      activerecord
+      database_cleaner (~> 1.8.0)
+    database_cleaner-redis (1.8.0)
+      database_cleaner (~> 1.8.0)
+      redis
     devise (4.7.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -375,6 +382,8 @@ DEPENDENCIES
   capybara-email
   cocoon
   coffee-rails (~> 5.0)
+  database_cleaner-active_record
+  database_cleaner-redis
   devise
   doorkeeper
   dotenv-rails
@@ -385,7 +394,7 @@ DEPENDENCIES
   launchy
   letter_opener
   listen (~> 3.2)
-  mysql2
+  mysql2 (~> 0.5.0)
   oj
   omniauth
   omniauth-facebook
@@ -403,7 +412,7 @@ DEPENDENCIES
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
-  thinking-sphinx
+  thinking-sphinx (~> 5.0)
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)
