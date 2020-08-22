@@ -26,7 +26,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bootsnap', '>= 1.4.8', require: false
 gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
@@ -45,6 +45,8 @@ gem 'oj'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
+gem 'mysql2',          '~> 0.5.0', :platform => :ruby
+gem 'thinking-sphinx', '~> 5.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -74,6 +76,8 @@ group :test do
   gem 'shoulda-matchers', '~> 4.0'
   gem 'rails-controller-testing'
   gem 'launchy'
+  gem 'database_cleaner-active_record'
+  gem 'database_cleaner-redis'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

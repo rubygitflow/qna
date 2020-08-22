@@ -1,0 +1,3 @@
+h3 Comment
+p = link_to object.commentable.body.truncate(80), object.commentable.is_a?(Question) ? question_path(object.commentable) : question_path(object.commentable.question)
+p = object.body.truncate(200)

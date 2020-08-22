@@ -37,3 +37,6 @@ yarn-debug.log*
 /config/database.yml
 
 .env*.local
+
+config/*.sphinx.conf
+db/sphinx
