@@ -60,6 +60,9 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "qna_production"
 
+  # see https://gist.github.com/maxivak/690e6c353f65a86a4af9
+  config.active_job.queue_adapter = :sidekiq
+
   config.action_mailer.perform_caching = false
 
   # # YANDEX.RU

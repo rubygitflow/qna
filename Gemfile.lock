@@ -65,19 +65,19 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
-    autoprefixer-rails (9.8.6.2)
+    autoprefixer-rails (9.8.6.3)
       execjs
     aws-eventstream (1.1.0)
-    aws-partitions (1.358.0)
-    aws-sdk-core (3.104.4)
+    aws-partitions (1.359.0)
+    aws-sdk-core (3.105.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.36.0)
+    aws-sdk-kms (1.37.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.78.0)
+    aws-sdk-s3 (1.79.0)
       aws-sdk-core (~> 3, >= 3.104.3)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -196,8 +196,6 @@ GEM
     jwt (2.2.2)
     launchy (2.5.0)
       addressable (~> 2.7)
-    letter_opener (1.7.0)
-      launchy (~> 2.2)
     libv8 (8.4.255.0)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -294,7 +292,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.1.4)
+    redis (4.2.1)
     regexp_parser (1.7.1)
     request_store (1.5.0)
       rack (>= 1.4)
@@ -336,11 +334,10 @@ GEM
       rubyzip (>= 1.2.2)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
-    sidekiq (5.2.9)
-      connection_pool (~> 2.2, >= 2.2.2)
+    sidekiq (6.1.1)
+      connection_pool (>= 2.2.2)
       rack (~> 2.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 4.2)
+      redis (>= 4.2.0)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -436,7 +433,6 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   jquery-rails
   launchy
-  letter_opener
   listen (~> 3.2)
   mini_racer
   mysql2 (~> 0.5.0)
@@ -452,7 +448,7 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver
   shoulda-matchers (~> 4.0)
-  sidekiq (< 6)
+  sidekiq
   sinatra
   slim-rails
   spring

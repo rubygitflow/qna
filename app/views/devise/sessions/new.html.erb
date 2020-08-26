@@ -24,3 +24,6 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+<% if Rails.env == 'production' %>
+  <p> Регистрация через Facebook заблокирована для сайтов без HTTPS протокола </p>
+<% end %>

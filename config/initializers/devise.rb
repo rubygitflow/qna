@@ -275,10 +275,13 @@ Devise.setup do |config|
                   Rails.application.credentials[Rails.env.to_sym][:github][:APP_ID],
                   Rails.application.credentials[Rails.env.to_sym][:github][:APP_SECRET],
                   scope: 'user:email, read:user'
-  config.omniauth :facebook,
+
+  if Rails.env == 'development'
+    config.omniauth :facebook,
                   Rails.application.credentials[Rails.env.to_sym][:facebook][:APP_ID],
                   Rails.application.credentials[Rails.env.to_sym][:facebook][:APP_SECRET],
                   scope: 'email'
+  end
                   
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

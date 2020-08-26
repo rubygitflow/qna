@@ -32,10 +32,13 @@ Rails.application.configure do
   # config.active_storage.service = :local
   config.active_storage.service = :clevercloud
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = {host: 'localhost', port: 3000}
-  config.action_mailer.delivery_method = :letter_opener
+  # see https://gist.github.com/maxivak/690e6c353f65a86a4af9
+  config.active_job.queue_adapter = :sidekiq
+
+  # # Don't care if the mailer can't send.
+  # config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.default_url_options = {host: 'localhost', port: 3000}
+  # config.action_mailer.delivery_method = :letter_opener
 
   config.action_mailer.perform_caching = false
 
@@ -57,20 +60,20 @@ Rails.application.configure do
   # }
   # # "Message rejected under suspicion of SPAM"
 
-  # # GMAIL.COM
-  # config.action_mailer.perform_deliveries = true
-  # config.action_mailer.raise_delivery_errors = true
-  # config.action_mailer.delivery_method = :smtp
+  # GMAIL.COM
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
 
-  # config.action_mailer.default_url_options = {host: 'localhost', port: 3000}
-  # config.action_mailer.smtp_settings = {
-  #   address: 'smtp.gmail.com',
-  #   port: 587,
-  #   user_name: Rails.application.credentials[:SMTP_USERNAME],
-  #   password: Rails.application.credentials[:SMTP_PASSWORD],
-  #   authentication: 'plain',
-  #   enable_starttls_auto: true
-  # }
+  config.action_mailer.default_url_options = {host: 'localhost', port: 3000}
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    user_name: Rails.application.credentials[:SMTP_USERNAME],
+    password: Rails.application.credentials[:SMTP_PASSWORD],
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
 
 
   # Print deprecation notices to the Rails logger.

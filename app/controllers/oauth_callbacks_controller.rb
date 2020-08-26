@@ -15,7 +15,8 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: action_name.capitalize) if is_navigational_format?
     else
-      redirect_to root_path, alert: t('.failure')
+      redirect_to root_path, alert: "Registration is not available! \
+                                    You must enter your email first."
     end
   end
 end

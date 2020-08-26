@@ -34,6 +34,9 @@ Rails.application.configure do
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
 
+  # see https://gist.github.com/maxivak/690e6c353f65a86a4af9  
+  config.active_job.queue_adapter = :test
+
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {host: 'localhost', port: 3000}
 

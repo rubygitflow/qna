@@ -26,8 +26,10 @@ html
     .container
       .row
         .col-lg-9
-          p class="notice" = notice
-          p class="alert" = alert 
+          - if notice
+            p class="alert alert-warning" = notice
+          - if alert
+            p class="alert alert-danger" = alert 
 
           = yield
 

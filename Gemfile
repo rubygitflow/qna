@@ -17,7 +17,7 @@ gem 'sass-rails', '>= 6'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
-# Use Redis adapter to run Action Cable in production
+# Use Redis adapter to run Action Cable in production - dependent on 'sidekiq'
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -42,7 +42,7 @@ gem 'cancancan'
 gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
-gem 'sidekiq', '< 6'
+gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 gem 'mysql2',          '~> 0.5.0', :platform => :ruby
@@ -64,7 +64,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'dotenv-rails'
-  gem 'letter_opener'
+  # gem 'letter_opener'
 
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false

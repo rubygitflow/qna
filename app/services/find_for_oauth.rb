@@ -10,7 +10,20 @@ class FindForOauth
     return authorization.user if authorization
 
     email = auth.info[:email]
-    user = User.find_by(email: email)
+    if email.blank?
+      uid = auth.uid.to_s
+      remoute_user = Authorization.find_by(uid: uid)
+      puts "user=#{remoute_user.inspect}"
+      if remoute_user.present?
+        user = User.find(remoute_user.user_id)
+        email = user.email
+      else
+        return nil
+      end
+    else
+      user = User.find_by(email: email)
+    end
+
     if user
       user.create_authorization(auth)
     else
