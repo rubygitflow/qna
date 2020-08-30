@@ -1,9 +1,10 @@
 #vouting.comments-area  data-resourсe-id=@question.id data-resourсe-type="question" 
-  = render @question
+  - cache @question do
+    = render @question
 
-  h2 Answers
-  .answers id="answers-#{@question.id}"
-    = render @question.answers
+    h2 Answers
+    .answers id="answers-#{@question.id}"
+      = render @question.answers
 
   - if user_signed_in?
     = render 'answers/form', answer: @answer

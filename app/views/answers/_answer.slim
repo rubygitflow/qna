@@ -1,49 +1,50 @@
 - if answer.persisted?
-  blockquote id="answer-#{answer.id}" class='answer border border-dark'  data-answer-id=@answer.id
-    p = answer.body
+  - cache answer do
+    blockquote id="answer-#{answer.id}" class='answer border border-dark'  data-answer-id=@answer.id
+      p = answer.body
 
-    div id="comments-answer-#{answer.id}"
-      = render 'comments/index', resource: answer
-        
-      - if can?(:create, @comment)
-        p 
-          = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: answer, commentable: 'answers'), resourсe_id: answer.id, resourсe_type: 'answer'}
+      div id="comments-answer-#{answer.id}"
+        = render 'comments/index', resource: answer
+          
+        - if can?(:create, @comment)
+          p 
+            = link_to 'Add comment', '#', class: 'add-comment-link btn btn-link', data: {url: comments_path(id: answer, commentable: 'answers'), resourсe_id: answer.id, resourсe_type: 'answer'}
 
-          = render 'comments/form', comment: @comment
+            = render 'comments/form', comment: @comment
 
-    - is_author = current_user&.author?(answer)
+      - is_author = current_user&.author?(answer)
 
-    div id="vote-answer-#{answer.id}"     
+      div id="vote-answer-#{answer.id}"     
+        p
+          span Rating: 
+          span.rating= answer.rating
+          
+          - if current_user
+            - unless is_author
+              =render 'votes/block', resource: answer
+
+      - if answer.files.attached?
+        - answer.files.each do |file|
+          p id="attachment-#{file.id}"
+            span = link_to file.filename.to_s, url_for(file)
+            - if is_author
+              span = link_to 'Delete file', attachment_path(file), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
+
+      -if answer&.links.present?
+        = render 'links/index', resource: answer
+
       p
-        span Rating: 
-        span.rating= answer.rating
+        - if can?(:update, answer)
+          span = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
+        - if can?(:destroy, answer)
+          span = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' 
+
+      - if can?(:select_best, answer)
+        - if answer.best?
+          p class='best-answer-title' This is the best answer!
+        - else
+          p = link_to 'Select best!', select_best_answer_path(answer), class: 'best-answer-link btn btn-success', method: :post, remote: true
+
+      - if can?(:create, Answer)
+        = render 'answers/form', answer: answer
         
-        - if current_user
-          - unless is_author
-            =render 'votes/block', resource: answer
-
-    - if answer.files.attached?
-      - answer.files.each do |file|
-        p id="attachment-#{file.id}"
-          span = link_to file.filename.to_s, url_for(file)
-          - if is_author
-            span = link_to 'Delete file', attachment_path(file), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
-
-    -if answer&.links.present?
-      = render 'links/index', resource: answer
-
-    p
-      - if can?(:update, answer)
-        span = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
-      - if can?(:destroy, answer)
-        span = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' 
-
-    - if can?(:select_best, answer)
-      - if answer.best?
-        p class='best-answer-title' This is the best answer!
-      - else
-        p = link_to 'Select best!', select_best_answer_path(answer), class: 'best-answer-link btn btn-success', method: :post, remote: true
-
-    - if can?(:create, Answer)
-      = render 'answers/form', answer: answer
-      

@@ -1,3 +1,4 @@
-.links
-  p Links:
-  = render resource.links
+-if resource.links.present?
+  .links
+    p Links:
+    = render resource.links

@@ -1,4 +1,5 @@
 li id="comment-#{comment.id}"
-  span = comment.body
-  - if can?(:destroy, comment)
-    span = link_to 'Delete comment', comment_path(comment), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
+  - cache comment do
+    span = comment.body
+    - if can?(:destroy, comment)
+      span = link_to 'Delete comment', comment_path(comment), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger'
