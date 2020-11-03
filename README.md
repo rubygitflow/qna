@@ -1,24 +1,17 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the training project Questions&Answers built on the principles of TDD.
 
-Things you may want to cover:
+Here, all features are tested, and technologies are considered:
+* Ajax in Rails;
+* ActiveStorage and working with files
+* Nested forms and polymorphic associations
+* Actionable
+* OAuth authentication via social networks
+* Authorization in Rails
+* REST API
+* Background task
+* Full-text search using the sphinx library
+* Deploy with Capistrano
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Look at commits and explore the code
