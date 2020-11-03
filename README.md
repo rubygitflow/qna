@@ -1,6 +1,6 @@
 # README
 
-This is the training project Questions&Answers built on the principles of TDD.
+This is the training project **Questions&Answers** built on the principles of TDD.
 
 Here, all features are tested, and technologies are considered:
 * Ajax in Rails;
